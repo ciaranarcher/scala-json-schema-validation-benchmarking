@@ -56,3 +56,11 @@ class SC_I_LM extends Implementation {
   override def remove(n: Int): Int = { map -= n ; n }
   override def get(n:Int):Double = map.get(n).get
 }
+
+class SC_I_IM extends Implementation {
+  var map:immutable.IntMap[Double] = immutable.IntMap[Double]()
+
+  override def put(n: Int, d:Double): Int = { map += n -> d ; n }
+  override def remove(n: Int): Int = { map -= n ; n }
+  override def get(n:Int):Double = map.get(n).get
+}
