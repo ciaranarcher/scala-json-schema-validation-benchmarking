@@ -1,19 +1,18 @@
 # Micro-Benchmarking Scala Maps #
-  
-A fork of [this project](https://github.com/sirthias/scala-benchmarking-template) which uses 
-[Caliper](http://code.google.com/p/caliper/) to micro-benchmark.
 
-Currently using scala 2.11.6.
+![travis](https://travis-ci.org/dvmlls/scala-map-benchmarking.svg?branch=master)
+  
+Using [Caliper](http://code.google.com/p/caliper/) and Scala 2.11.6.
 
 ## Results ##
  
- For integer keys: 
+For integer keys: 
  
 ![graph] (src/R/plot.png)
 
 * java.util.concurrent.HashMap
 * java.util.HashMap
-* scala.collections.immutable.HashMap
-* scala.collections.immutable.LongMap
-* scala.collections.mutable.HashMap
-* scala.collections.mutable.LongMap
+* scala.collection.immutable.HashMap
+* scala.collection.immutable.LongMap
+* scala.collection.mutable.HashMap
+* scala.collection.mutable.LongMap
