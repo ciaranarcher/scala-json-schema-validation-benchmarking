@@ -10,7 +10,7 @@ class Benchmark extends SimpleScalaBenchmark {
   @Param(Array("100", "1000", "10000"))
   val length: Int = 0
 
-  @Param(Array("JU_HM", "JU_C_HM", "SC_M_HM", "SC_M_LM", "SC_I_HM", "SC_I_LM"))
+  @Param(Array("JU_HM", "JU_C_HM", "SC_M_HM", "SC_M_LM", "SC_I_HM", "SC_I_LM", "SC_I_IM"))
   val implementation:String = ""
 
   var empty:Implementation = null
@@ -18,7 +18,6 @@ class Benchmark extends SimpleScalaBenchmark {
   var fullRand:Implementation = null
 
   var indexesSeq:Seq[Int] = null
-  var indexesLong:Seq[Int] = null
   var indexesRand:Seq[Int] = null
 
   val r:Random = new Random()
@@ -30,6 +29,7 @@ class Benchmark extends SimpleScalaBenchmark {
     case "SC_M_LM" => new SC_M_LM()
     case "SC_I_HM" => new SC_I_HM()
     case "SC_I_LM" => new SC_I_LM()
+    case "SC_I_IM" => new SC_I_IM()
   }
 
   override def setUp(): Unit = {
