@@ -1,6 +1,6 @@
 # Micro-Benchmarking Scala Maps #
 
-![travis](https://travis-ci.org/dvmlls/scala-map-benchmarking.svg?branch=master)
+[![travis status](https://travis-ci.org/dvmlls/scala-map-benchmarking.svg?branch=master)](https://travis-ci.org/dvmlls/scala-map-benchmarking)
   
 Using [Caliper](http://code.google.com/p/caliper/) and Scala 2.11.6.
 
