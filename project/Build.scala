@@ -6,10 +6,10 @@ object Build extends Build {
   lazy val project = Project("root", file(".")).settings(
 
     // basics
-    name := "scala-benchmarking-template",
-    organization := "com.example",
+    name := "scala-map-benchmarking",
+    organization := "cat.dvmlls",
     version := "1.0.0-SNAPSHOT",
-    scalaVersion := "2.9.2",
+    scalaVersion := "2.11.6",
 
     // dependencies
     libraryDependencies ++= Seq(
