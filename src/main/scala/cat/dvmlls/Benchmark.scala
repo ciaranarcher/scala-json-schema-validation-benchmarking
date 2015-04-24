@@ -7,68 +7,59 @@ import java.util.Random
 // the SimpleScalaBenchmark trait does it and also adds some convenience functionality
 class Benchmark extends SimpleScalaBenchmark {
   
-  // to make your benchmark depend on one or more parameterized values, create fields with the name you want
-  // the parameter to be known by, and add this annotation (see @Param javadocs for more details)
-  // caliper will inject the respective value at runtime and make sure to run all combinations 
-  @Param(Array("10", "100", "1000", "10000"))
+  @Param(Array("100", "1000", "10000"))
   val length: Int = 0
 
-  @Param(Array("JU_HM", "JU_C_HM", "SC_M_HM", "SC_I_HM", "SC_I_LM"))
+  @Param(Array("JU_HM", "JU_C_HM", "SC_M_HM", "SC_M_LM", "SC_I_HM", "SC_I_LM"))
   val implementation:String = ""
-  var map:Implementation = null
+
+  var empty:Implementation = null
+  var fullSeq:Implementation = null
+  var fullRand:Implementation = null
+
+  var indexesSeq:Seq[Int] = null
+  var indexesLong:Seq[Int] = null
+  var indexesRand:Seq[Int] = null
 
   val r:Random = new Random()
 
-  override def setUp() {
-    implementation match {
-      case "JU_HM" => map = new JU_HM()
-      case "JU_C_HM" => map = new JU_C_HM()
-      case "SC_M_HM" => map = new SC_M_HM()
-      case "SC_M_LM" => map = new SC_M_LM()
-      case "SC_I_HM" => map = new SC_I_HM()
-      case "SC_I_LM" => map = new SC_I_LM()
-    }
+  private def createMap:Implementation = implementation match {
+    case "JU_HM" => new JU_HM()
+    case "JU_C_HM" => new JU_C_HM()
+    case "SC_M_HM" => new SC_M_HM()
+    case "SC_M_LM" => new SC_M_LM()
+    case "SC_I_HM" => new SC_I_HM()
+    case "SC_I_LM" => new SC_I_LM()
   }
 
-  def timeSequentialInsert(reps:Int) = repeat(reps) {
-    (0 until length).map(n => map.update(n, r.nextDouble()))
+  override def setUp(): Unit = {
+    empty = createMap
+
+    fullSeq = createMap
+    indexesSeq = 0 until length
+    indexesSeq.map(n => fullSeq.put(n, r.nextDouble()))
+
+    fullRand = createMap
+    indexesRand = indexesSeq
+      .map(n => fullRand.put(r.nextInt(), r.nextDouble()))
+      .reverse.distinct
   }
 
-  def timeRandomInsert(reps:Int) = repeat(reps) {
-    (0 until length).map(n => map.update(r.nextInt(), r.nextDouble()))
-  }
+  def timeSequentialInsert(reps:Int) = repeat(reps) { indexesSeq.map(n => empty.put(n, r.nextDouble())) }
 
-  def timeSequentialGet(reps:Int) = repeat(reps) {
-    (0 until length).map(n => map.update(n, r.nextDouble()))
-    (length until 0).map(map.get)
-  }
+  def timeRandomInsert(reps:Int) = repeat(reps) { indexesRand.map(n => empty.put(r.nextInt(), r.nextDouble())) }
 
-  def timeRandomGet(reps:Int) = repeat(reps) {
-    val indexes = (0 until length).map(n => map.update(r.nextInt(), r.nextDouble()))
-    indexes.reverseMap(map.get)
-  }
+  def timeSequentialGet(reps:Int) = repeat(reps) { indexesSeq.map(fullSeq.get) }
 
-  def timeSequentialDelete(reps:Int) = repeat(reps) {
-    (0 until length).map(n => map.update(n, r.nextDouble()))
-    (length until 0).map(map.delete)
-  }
+  def timeRandomGet(reps:Int) = repeat(reps) { indexesRand.map(fullRand.get) }
 
-  def timeRandomDelete(reps:Int) = repeat(reps) {
-    val indexes = (0 until length).map(n => map.update(r.nextInt(), r.nextDouble()))
-    indexes.reverseMap(map.delete)
-  }
+  def timeSequentialDelete(reps:Int) = repeat(reps) { indexesSeq.map(fullSeq.remove) }
 
-  def timeSequentialUpdate(reps:Int) = repeat(reps) {
-    (0 until length).map(n => map.update(n, r.nextDouble()))
-    (length until 0).map(n => map.update(n, r.nextDouble()))
-  }
+  def timeRandomDelete(reps:Int) = repeat(reps) { indexesRand.map(fullRand.remove) }
 
-  def timeRandomUpdate(reps:Int) = repeat(reps) {
-    val indexes = (0 until length).map(n => map.update(r.nextInt(), r.nextDouble()))
-    indexes.reverseMap(n => map.update(n, r.nextDouble()))
-  }
+  def timeSequentialUpdate(reps:Int) = repeat(reps) { indexesSeq.map(n => fullSeq.put(n, r.nextDouble())) }
 
-  override def tearDown() {
-    // clean up after yourself if required
-  }
+  def timeRandomUpdate(reps:Int) = repeat(reps) { indexesRand.map(n => fullRand.put(n, r.nextDouble())) }
+
+  override def tearDown() { }
 }
