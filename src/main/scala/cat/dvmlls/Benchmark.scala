@@ -48,8 +48,8 @@ class Benchmark extends SimpleScalaBenchmark {
       case "JU_C_HM" => new Tester({ new JU_C_HM {} }) with Integers
       case "SC_M_HM" => new Tester({ new SC_M_HM {} }) with Integers
       case "SC_M_LoM" => new Tester({ new SC_M_LoM {} }) with Longs
-      case "SC_M_LsM" => new Tester({ new SC_M_LsM {} }) with Longs
-      case "SC_M_LHM" => new Tester({ new SC_M_LHM {} }) with Longs
+      case "SC_M_LsM" => new Tester({ new SC_M_LsM {} }) with Integers
+      case "SC_M_LHM" => new Tester({ new SC_M_LHM {} }) with Integers
       case "SC_I_HM" => new Tester({ new SC_I_HM {} }) with Integers
       case "SC_I_LoM" => new Tester({ new SC_I_LoM {} }) with Longs
       case "SC_I_IM" => new Tester({ new SC_I_IM {} }) with Integers
