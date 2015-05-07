@@ -13,7 +13,8 @@ grouped <- df %>% filter(!(impl %in% c('SC_M_LsM', 'JU_C_HM', 'JU_TM'))) %>%
 plot <- grouped %>% 
   ggplot(aes(x=impl, y=log(ns/average), fill=impl)) + 
   geom_bar(stat='identity', position='dodge') + xlab('') +
-  facet_grid(length ~ order + benchmark) + theme(axis.text.x=element_blank())
+  facet_grid(length ~ order + benchmark) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())
 
 plot
 
