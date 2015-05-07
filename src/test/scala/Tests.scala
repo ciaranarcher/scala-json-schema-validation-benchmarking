@@ -14,19 +14,20 @@ class Tests extends FunSuite with ShouldMatchers {
   def ints = s.map(_ => r.nextInt()).distinct
 
   trait Integers extends HasIndexes [Int] { override lazy val indexes:Seq[Int] = ints }
+  trait Capacity { def capacity:Int = n }
 
   test("scala mutable get") {
-    val tester = new Tester(() => new SC_M_HM {}) with Integers
+    val tester = new Tester(() => new SC_M_HM with Capacity {}) with Integers
     tester.get()
   }
 
   test("scala immutable get") {
-    val tester = new Tester(() => new SC_I_HM {}) with Integers
+    val tester = new Tester(() => new SC_I_HM with Capacity {}) with Integers
     tester.get()
   }
 
   test("java mutable get") {
-    val tester = new Tester(() => new JU_HM {}) with Integers
+    val tester = new Tester(() => new JU_HM with Capacity {}) with Integers
     tester.get()
   }
 }

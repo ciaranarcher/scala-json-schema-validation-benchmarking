@@ -4,7 +4,7 @@ import java.util.Random
 
 trait HasIndexes[K] { def indexes:Seq[K] }
 
-abstract class Tester[T,K](create:() => Impl[T, K])(implicit r:Random) extends HasIndexes[K] {
+abstract class Tester[T,K](create:() => Impl[T, K])(implicit r:Random, n:Numeric[K]) extends HasIndexes[K] {
   val empty:Impl[T, K] = create()
   val full:Impl[T, K] = {
     val result = create()
@@ -13,7 +13,7 @@ abstract class Tester[T,K](create:() => Impl[T, K])(implicit r:Random) extends H
   }
   val full2:Impl[T, K] = {
     val result = create()
-    indexes.foreach(k => result.put(k, r.nextDouble()))
+    indexes.map(k => n.plus(k,k)).foreach(k => result.put(k, r.nextDouble()))
     result
   }
 
