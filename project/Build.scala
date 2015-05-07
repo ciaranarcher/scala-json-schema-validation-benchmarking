@@ -10,11 +10,14 @@ object Build extends Build {
     organization := "cat.dvmlls",
     version := "1.0.0-SNAPSHOT",
     scalaVersion := "2.11.6",
+    scalacOptions ++= Seq("-deprecation", "-feature"),
 
     // dependencies
     libraryDependencies ++= Seq(
         "com.google.code.java-allocation-instrumenter" % "java-allocation-instrumenter" % "2.0",
-        "com.google.code.gson" % "gson" % "1.7.1"
+        "com.google.code.gson" % "gson" % "1.7.1",
+        "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+        "junit" % "junit" % "4.12" % "test"
     ),
     resolvers += "sonatypeSnapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
 
