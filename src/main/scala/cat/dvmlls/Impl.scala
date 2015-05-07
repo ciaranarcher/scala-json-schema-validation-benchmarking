@@ -9,12 +9,9 @@ trait Impl[T, K] {
   def remove(n:K):K
   def get(n:K):Double
   def merge(m:T):Int
-  def create():T
 }
 
-trait MutableImpl[T, K] extends Impl[T, K] {
-  lazy val map = create()
-}
+trait MutableImpl[T, K] extends Impl[T, K] { }
 
 trait JU[T <: util.Map[Int,Double]] extends MutableImpl[T, Int] {
   override def put(n: Int, d:Double): Int = { map.put(n,d) ; n }
@@ -23,9 +20,9 @@ trait JU[T <: util.Map[Int,Double]] extends MutableImpl[T, Int] {
   override def merge(m:T):Int = { map.putAll(m); map.size }
 }
 
-class JU_HM (capacity:Int) extends JU [util.HashMap[Int,Double]] { override def create() = new util.HashMap[Int,Double](capacity) }
-class JU_TM () extends JU [util.TreeMap[Int,Double]] { override def create() = new util.TreeMap[Int,Double]() }
-class JU_C_HM (capacity:Int) extends JU [util.concurrent.ConcurrentHashMap[Int,Double]] { override def create() = new util.concurrent.ConcurrentHashMap[Int,Double](capacity) }
+class JU_HM (capacity:Int) extends JU [util.HashMap[Int,Double]] { override val map = new util.HashMap[Int,Double](capacity) }
+class JU_TM () extends JU [util.TreeMap[Int,Double]] { override val map = new util.TreeMap[Int,Double]() }
+class JU_C_HM (capacity:Int) extends JU [util.concurrent.ConcurrentHashMap[Int,Double]] { override val map = new util.concurrent.ConcurrentHashMap[Int,Double](capacity) }
 
 trait SC_M[T <: mutable.Map[K,Double], K] extends MutableImpl[T, K] {
   override def put(n:K, d:Double):K = { map.put(n,d) ; n }
@@ -34,40 +31,39 @@ trait SC_M[T <: mutable.Map[K,Double], K] extends MutableImpl[T, K] {
   override def merge(m:T):Int = { m.foreach { case (k,v) => map.put(k,v) }; map.size }
 }
 
-class SC_M_HM () extends SC_M [mutable.HashMap[Int,Double], Int] { override def create() = new mutable.HashMap[Int,Double]() }
-class SC_M_OHM (capacity:Int) extends SC_M [mutable.OpenHashMap[Int,Double], Int] { override def create() = new mutable.OpenHashMap[Int,Double](capacity) }
-class SC_M_LHM () extends SC_M [mutable.LinkedHashMap[Int,Double], Int] { override def create() = new mutable.LinkedHashMap[Int,Double]() }
-class SC_M_LsM () extends SC_M [mutable.ListMap[Int,Double], Int] { override def create() = new mutable.ListMap[Int,Double]() }
-class SC_M_LoM (capacity:Int) extends SC_M [mutable.LongMap[Double], Long] { override def create() = new mutable.LongMap[Double](capacity) }
+class SC_M_HM () extends SC_M [mutable.HashMap[Int,Double], Int] { override val map = new mutable.HashMap[Int,Double]() }
+class SC_M_OHM (capacity:Int) extends SC_M [mutable.OpenHashMap[Int,Double], Int] { override val map = new mutable.OpenHashMap[Int,Double](capacity) }
+class SC_M_LHM () extends SC_M [mutable.LinkedHashMap[Int,Double], Int] { override val map = new mutable.LinkedHashMap[Int,Double]() }
+class SC_M_LsM () extends SC_M [mutable.ListMap[Int,Double], Int] { override val map = new mutable.ListMap[Int,Double]() }
+class SC_M_LoM (capacity:Int) extends SC_M [mutable.LongMap[Double], Long] { override val map = new mutable.LongMap[Double](capacity) }
 
 trait SC_I[T <: immutable.Map[K,Double], K] extends Impl[T, K] {
-  var map = create()
   override def get(n:K):Double = map.get(n).get
 }
 
 class SC_I_TM () extends SC_I [immutable.TreeMap[Int,Double], Int] {
-  override def create() = immutable.TreeMap[Int,Double]()
+  var map = immutable.TreeMap[Int,Double]()
   override def put(n:Int, d:Double):Int = { map += n -> d ; n }
   override def remove(n:Int):Int = { map -= n ; n }
   override def merge(m:immutable.TreeMap[Int,Double]):Int = { map ++= m; map.size }
 }
 
 class SC_I_HM () extends SC_I [immutable.HashMap[Int,Double], Int] {
-  override def create() = immutable.HashMap[Int,Double]()
+  var map = immutable.HashMap[Int,Double]()
   override def put(n:Int, d:Double):Int = { map += n -> d ; n }
   override def remove(n:Int):Int = { map -= n ; n }
   override def merge(m:immutable.HashMap[Int,Double]):Int = { map ++= m; map.size }
 }
 
 class SC_I_IM () extends SC_I [immutable.IntMap[Double], Int] {
-  override def create() = immutable.IntMap[Double]()
+  var map = immutable.IntMap[Double]()
   override def put(n:Int, d:Double):Int = { map += n -> d ; n }
   override def remove(n:Int):Int = { map -= n ; n }
   override def merge(m:immutable.IntMap[Double]):Int = { map ++= m; map.size }
 }
 
 class SC_I_LoM () extends SC_I [immutable.LongMap[Double], Long] {
-  override def create() = immutable.LongMap[Double]()
+  var map = immutable.LongMap[Double]()
   override def put(n: Long, d:Double):Long = { map += n -> d ; n }
   override def remove(n:Long):Long = { map -= n ; n }
   override def merge(m:immutable.LongMap[Double]):Int = { map ++= m; map.size }
