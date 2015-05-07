@@ -17,7 +17,8 @@ object Build extends Build {
         "com.google.code.java-allocation-instrumenter" % "java-allocation-instrumenter" % "2.0",
         "com.google.code.gson" % "gson" % "1.7.1",
         "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-        "junit" % "junit" % "4.12" % "test"
+        "junit" % "junit" % "4.12" % "test",
+        "org.scalacheck" %% "scalacheck" % "1.12.2" % "test"
     ),
     resolvers += "sonatypeSnapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
 

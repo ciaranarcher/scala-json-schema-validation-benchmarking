@@ -26,24 +26,23 @@ class Benchmark extends SimpleScalaBenchmark {
   def ints = if (order == "sequential") s else s.map(_ => r.nextInt()/2).distinct
   def longs = if (order == "sequential") s.map(_.toLong) else s.map(_ => r.nextLong()/2).distinct
 
-  trait Integers extends HasIndexes [Int] { override lazy val indexes:Seq[Int] = ints }
-  trait Longs extends HasIndexes[Long] { override lazy val indexes:Seq[Long] = longs }
-  trait Capacity { def capacity = length }
-
   override def setUp(): Unit = {
+    implicit lazy val intIndexes:Seq[Int] = ints
+    implicit lazy val longIndexes:Seq[Long] = longs
+
     tester = implementation match {
-      case "JU_HM" => new Tester(() => new JU_HM with Capacity {}) with Integers
-      case "JU_TM" => new Tester(() => new JU_TM with Capacity {}) with Integers
-      case "JU_C_HM" => new Tester(() => new JU_C_HM with Capacity {}) with Integers
-      case "SC_M_HM" => new Tester(() => new SC_M_HM with Capacity {}) with Integers
-      case "SC_M_OHM" => new Tester(() => new SC_M_OHM with Capacity {}) with Integers
-      case "SC_M_LoM" => new Tester(() => new SC_M_LoM with Capacity {}) with Longs
-      case "SC_M_LsM" => new Tester(() => new SC_M_LsM with Capacity {}) with Integers
-      case "SC_M_LHM" => new Tester(() => new SC_M_LHM with Capacity {}) with Integers
-      case "SC_I_HM" => new Tester(() => new SC_I_HM with Capacity {}) with Integers
-      case "SC_I_LoM" => new Tester(() => new SC_I_LoM with Capacity {}) with Longs
-      case "SC_I_IM" => new Tester(() => new SC_I_IM with Capacity {}) with Integers
-      case "SC_I_TM" => new Tester(() => new SC_I_TM with Capacity {}) with Integers
+      case "JU_HM" => new Tester(() => new JU_HM(length))
+      case "JU_TM" => new Tester(() => new JU_TM(length))
+      case "JU_C_HM" => new Tester(() => new JU_C_HM(length))
+      case "SC_M_HM" => new Tester(() => new SC_M_HM(length))
+      case "SC_M_OHM" => new Tester(() => new SC_M_OHM(length))
+      case "SC_M_LoM" => new Tester(() => new SC_M_LoM(length))
+      case "SC_M_LsM" => new Tester(() => new SC_M_LsM(length))
+      case "SC_M_LHM" => new Tester(() => new SC_M_LHM(length))
+      case "SC_I_HM" => new Tester(() => new SC_I_HM(length))
+      case "SC_I_LoM" => new Tester(() => new SC_I_LoM(length))
+      case "SC_I_IM" => new Tester(() => new SC_I_IM(length))
+      case "SC_I_TM" => new Tester(() => new SC_I_TM(length))
     }
   }
 

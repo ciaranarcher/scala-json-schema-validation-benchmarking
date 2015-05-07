@@ -2,9 +2,7 @@ package cat.dvmlls
 
 import java.util.Random
 
-trait HasIndexes[K] { def indexes:Seq[K] }
-
-abstract class Tester[T,K](create:() => Impl[T, K])(implicit r:Random, n:Numeric[K]) extends HasIndexes[K] {
+class Tester[T,K](create:() => Impl[T, K])(implicit r:Random, n:Numeric[K], indexes:Seq[K]) {
   val empty:Impl[T, K] = create()
   val full:Impl[T, K] = {
     val result = create()

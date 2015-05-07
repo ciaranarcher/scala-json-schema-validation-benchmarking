@@ -4,30 +4,33 @@ import org.scalatest.FunSuite
 import org.scalatest._
 import org.scalatest.junit.JUnitRunner
 import java.util.Random
+import org.scalacheck._
 
 @RunWith(classOf[JUnitRunner])
 class Tests extends FunSuite with ShouldMatchers {
   implicit val r = new Random()
   val n = 100
-  def s = 0 until n
 
-  def ints = s.map(_ => r.nextInt()).distinct
-
-  trait Integers extends HasIndexes [Int] { override lazy val indexes:Seq[Int] = ints }
-  trait Capacity { def capacity:Int = n }
+  def ints = (0 until n).map(_ => r.nextInt()).distinct
+  implicit lazy val indexes = ints
 
   test("scala mutable get") {
-    val tester = new Tester(() => new SC_M_HM with Capacity {}) with Integers
+    val tester = new Tester(() => new SC_M_HM(n))
     tester.get()
   }
 
   test("scala immutable get") {
-    val tester = new Tester(() => new SC_I_HM with Capacity {}) with Integers
+    val tester = new Tester(() => new SC_I_HM(n))
     tester.get()
   }
 
   test("java mutable get") {
-    val tester = new Tester(() => new JU_HM with Capacity {}) with Integers
+    val tester = new Tester(() => new JU_HM(n))
     tester.get()
   }
+}
+
+object MapSpec extends Properties("Maps") {
+  val length = Gen.oneOf(100, 1000, 10000)
+
 }
