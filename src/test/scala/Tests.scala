@@ -15,12 +15,12 @@ class Tests extends FunSuite with ShouldMatchers {
   implicit lazy val indexes = ints
 
   test("scala mutable get") {
-    val tester = new Tester(() => new SC_M_HM(n))
+    val tester = new Tester(() => new SC_M_HM())
     tester.get()
   }
 
   test("scala immutable get") {
-    val tester = new Tester(() => new SC_I_HM(n))
+    val tester = new Tester(() => new SC_I_HM())
     tester.get()
   }
 

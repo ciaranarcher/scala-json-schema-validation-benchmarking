@@ -32,17 +32,17 @@ class Benchmark extends SimpleScalaBenchmark {
 
     tester = implementation match {
       case "JU_HM" => new Tester(() => new JU_HM(length))
-      case "JU_TM" => new Tester(() => new JU_TM(length))
+      case "JU_TM" => new Tester(() => new JU_TM())
       case "JU_C_HM" => new Tester(() => new JU_C_HM(length))
-      case "SC_M_HM" => new Tester(() => new SC_M_HM(length))
+      case "SC_M_HM" => new Tester(() => new SC_M_HM())
       case "SC_M_OHM" => new Tester(() => new SC_M_OHM(length))
       case "SC_M_LoM" => new Tester(() => new SC_M_LoM(length))
-      case "SC_M_LsM" => new Tester(() => new SC_M_LsM(length))
-      case "SC_M_LHM" => new Tester(() => new SC_M_LHM(length))
-      case "SC_I_HM" => new Tester(() => new SC_I_HM(length))
-      case "SC_I_LoM" => new Tester(() => new SC_I_LoM(length))
-      case "SC_I_IM" => new Tester(() => new SC_I_IM(length))
-      case "SC_I_TM" => new Tester(() => new SC_I_TM(length))
+      case "SC_M_LsM" => new Tester(() => new SC_M_LsM())
+      case "SC_M_LHM" => new Tester(() => new SC_M_LHM())
+      case "SC_I_HM" => new Tester(() => new SC_I_HM())
+      case "SC_I_LoM" => new Tester(() => new SC_I_LoM())
+      case "SC_I_IM" => new Tester(() => new SC_I_IM())
+      case "SC_I_TM" => new Tester(() => new SC_I_TM())
     }
   }
 
