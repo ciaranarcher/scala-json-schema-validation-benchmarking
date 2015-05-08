@@ -19,5 +19,5 @@ class Tester[T,K](create:() => Impl[T, K])(implicit r:Random, n:Numeric[K], inde
   def insert() = indexes.map(k => empty.put(k, r.nextDouble()))
   def get() = indexes.map(full.get)
   def delete() = indexes.map(full.remove)
-  def update() = indexes.map(k => full.put(k, r.nextDouble()))
+  def update() = indexes.map(k => full.update(k, r.nextDouble()))
 }
