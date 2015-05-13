@@ -1,6 +1,9 @@
 package cat.dvmlls
 
 import java.util
+import com.carrotsearch.hppc.{IntDoubleMap, IntDoubleScatterMap, IntDoubleHashMap}
+import gnu.trove.map.hash.{TIntDoubleHashMap, THashMap}
+
 import scala.collection._
 
 trait Impl[T, K] {
@@ -13,9 +16,42 @@ trait Impl[T, K] {
   def size:Int
 }
 
-trait MutableImpl[T, K] extends Impl[T, K] { }
+// http://fastutil.di.unimi.it/
+// https://github.com/OpenHFT/Koloboke
 
-trait JU[T <: util.Map[Int,Double]] extends MutableImpl[T, Int] {
+trait HPPC[T <: IntDoubleMap ] extends Impl[T,Int] {
+  override def update(n: Int, d: Double):Int = { map.put(n,d) ; n }
+  override def get(n: Int): Double = map.get(n)
+  override def put(n: Int, d: Double):Int = update(n,d)
+  override def merge(m:T): Int = { map.putAll(m); map.size() }
+  override def size: Int = map.size()
+  override def remove(n:Int):Int = { map.remove(n) ; n }
+}
+
+class HPPC_IDHM(capacity:Int) extends HPPC [IntDoubleHashMap] { override def map = new IntDoubleHashMap(capacity) }
+class HPPC_IDSM(capacity:Int) extends HPPC [IntDoubleScatterMap] { override def map = new IntDoubleScatterMap(capacity) }
+
+class TR_HM[K](capacity:Int) extends Impl[THashMap[K,Double],K] {
+  override def map = new THashMap[K,Double](capacity)
+  override def update(n: K, d: Double): K = { map.put(n,d) ; n }
+  override def get(n: K): Double = map.get(n)
+  override def put(n: K, d: Double): K = update(n,d)
+  override def merge(m:THashMap[K,Double]): Int = { map.putAll(m); map.size() }
+  override def size: Int = map.size()
+  override def remove(n: K): K = { map.remove(n) ; n }
+}
+
+class TR_IDHM(capacity:Int) extends Impl[TIntDoubleHashMap,Int] {
+  override def map = new TIntDoubleHashMap(capacity)
+  override def update(n: Int, d: Double):Int = { map.put(n,d) ; n }
+  override def get(n: Int): Double = map.get(n)
+  override def put(n: Int, d: Double):Int = update(n,d)
+  override def merge(m:TIntDoubleHashMap): Int = { map.putAll(m); map.size() }
+  override def size: Int = map.size()
+  override def remove(n:Int):Int = { map.remove(n) ; n }
+}
+
+trait JU[T <: util.Map[Int,Double]] extends Impl[T, Int] {
   override def put(n: Int, d:Double): Int = { map.put(n,d) ; n }
   override def update(n: Int, d:Double): Int = put(n, d)
   override def remove(n: Int): Int = { map.remove(n) ; n }
@@ -28,7 +64,7 @@ class JU_HM (capacity:Int) extends JU [util.HashMap[Int,Double]] { override val 
 class JU_TM () extends JU [util.TreeMap[Int,Double]] { override val map = new util.TreeMap[Int,Double]() }
 class JU_C_HM (capacity:Int) extends JU [util.concurrent.ConcurrentHashMap[Int,Double]] { override val map = new util.concurrent.ConcurrentHashMap[Int,Double](capacity) }
 
-trait SC_M[T <: mutable.Map[K,Double], K] extends MutableImpl[T, K] {
+trait SC_M[T <: mutable.Map[K,Double], K] extends Impl[T, K] {
   override def put(n:K, d:Double):K = { map.put(n,d) ; n }
   override def update(n:K, d:Double):K = { map.update(n,d) ; n }
   override def remove(n:K):K = { map.remove(n) ; n }

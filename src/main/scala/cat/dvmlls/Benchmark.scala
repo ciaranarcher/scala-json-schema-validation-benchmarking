@@ -14,13 +14,15 @@ class Benchmark extends SimpleScalaBenchmark {
   @Param(Array("sequential", "random"))
   val order:String = ""
 
-  @Param(Array("100", "1000", "10000"))
+  @Param(Array("100"/*, "1000", "10000"*/))
   val length: Int = 0
 
   @Param(Array(
-    "JU_HM", "JU_C_HM", "JU_TM",
-    "SC_M_HM", "SC_M_LoM", "SC_M_LsM", "SC_M_LHM", "SC_M_OHM",
-    "SC_I_HM", "SC_I_LoM", "SC_I_IM", "SC_I_TM"))
+    "JU_HM", //"JU_C_HM", "JU_TM",
+//    "SC_M_HM", "SC_M_LoM", "SC_M_LsM", "SC_M_LHM", "SC_M_OHM",
+//    "SC_I_HM", "SC_I_LoM", "SC_I_IM", "SC_I_TM",
+    "TR_HM", "TR_IDHM",
+    "HPPC_IDHM", "HPPC_IDSM"))
   val implementation:String = ""
 
   implicit val r:Random = new Random()
@@ -47,6 +49,10 @@ class Benchmark extends SimpleScalaBenchmark {
       case "SC_I_LoM" => new Tester(() => new SC_I_LoM())
       case "SC_I_IM" => new Tester(() => new SC_I_IM())
       case "SC_I_TM" => new Tester(() => new SC_I_TM())
+      case "TR_HM" => new Tester(() => new TR_HM[Int]())
+      case "TR_IDHM" => new Tester(() => new TR_IDHM())
+      case "HPPC_IDHM" => new Tester(() => new HPPC_IDHM())
+      case "HPPC_IDSM" => new Tester(() => new HPPC_IDSM())
     }
   }
 

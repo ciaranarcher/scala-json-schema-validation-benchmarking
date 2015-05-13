@@ -14,6 +14,8 @@ object Build extends Build {
 
     // dependencies
     libraryDependencies ++= Seq(
+        "com.carrotsearch" % "hppc" % "0.7.1",
+        "net.sf.trove4j" % "trove4j" % "3.0.3",
         "com.google.code.java-allocation-instrumenter" % "java-allocation-instrumenter" % "2.0",
         "com.google.code.gson" % "gson" % "1.7.1",
         "org.scalatest" %% "scalatest" % "2.2.1" % "test",

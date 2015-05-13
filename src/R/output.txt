@@ -1,361 +1,254 @@
-length implementation benchmark      order         us linear runtime
-   100          JU_HM    Insert sequential       3.77 =
-   100          JU_HM    Insert     random       5.00 =
-   100          JU_HM       Get sequential       2.03 =
-   100          JU_HM       Get     random       1.92 =
-   100          JU_HM    Delete sequential       1.16 =
-   100          JU_HM    Delete     random       1.36 =
-   100          JU_HM    Update sequential       3.77 =
-   100          JU_HM    Update     random       4.99 =
-   100          JU_HM     Merge sequential       1.67 =
-   100          JU_HM     Merge     random       1.65 =
-   100        JU_C_HM    Insert sequential       6.48 =
-   100        JU_C_HM    Insert     random       6.64 =
-   100        JU_C_HM       Get sequential       1.97 =
-   100        JU_C_HM       Get     random       2.47 =
-   100        JU_C_HM    Delete sequential       3.16 =
-   100        JU_C_HM    Delete     random       3.75 =
-   100        JU_C_HM    Update sequential       6.51 =
-   100        JU_C_HM    Update     random       6.55 =
-   100        JU_C_HM     Merge sequential       3.76 =
-   100        JU_C_HM     Merge     random       3.82 =
-   100          JU_TM    Insert sequential       4.49 =
-   100          JU_TM    Insert     random       4.64 =
-   100          JU_TM       Get sequential       3.29 =
-   100          JU_TM       Get     random       4.00 =
-   100          JU_TM    Delete sequential       1.18 =
-   100          JU_TM    Delete     random       1.68 =
-   100          JU_TM    Update sequential       4.47 =
-   100          JU_TM    Update     random       4.68 =
-   100          JU_TM     Merge sequential       2.08 =
-   100          JU_TM     Merge     random       1.89 =
-   100        SC_M_HM    Insert sequential       4.22 =
-   100        SC_M_HM    Insert     random       3.80 =
-   100        SC_M_HM       Get sequential       2.45 =
-   100        SC_M_HM       Get     random       2.44 =
-   100        SC_M_HM    Delete sequential       1.79 =
-   100        SC_M_HM    Delete     random       1.83 =
-   100        SC_M_HM    Update sequential       4.21 =
-   100        SC_M_HM    Update     random       3.82 =
-   100        SC_M_HM     Merge sequential       2.75 =
-   100        SC_M_HM     Merge     random       2.60 =
-   100       SC_M_LoM    Insert sequential       3.28 =
-   100       SC_M_LoM    Insert     random       3.34 =
-   100       SC_M_LoM       Get sequential       1.73 =
-   100       SC_M_LoM       Get     random       1.81 =
-   100       SC_M_LoM    Delete sequential       2.20 =
-   100       SC_M_LoM    Delete     random       2.33 =
-   100       SC_M_LoM    Update sequential       3.30 =
-   100       SC_M_LoM    Update     random       3.35 =
-   100       SC_M_LoM     Merge sequential       2.18 =
-   100       SC_M_LoM     Merge     random       1.95 =
-   100       SC_M_LsM    Insert sequential     137.49 =
-   100       SC_M_LsM    Insert     random     136.47 =
-   100       SC_M_LsM       Get sequential      34.55 =
-   100       SC_M_LsM       Get     random      38.21 =
-   100       SC_M_LsM    Delete sequential       2.16 =
-   100       SC_M_LsM    Delete     random       2.03 =
-   100       SC_M_LsM    Update sequential     137.17 =
-   100       SC_M_LsM    Update     random     138.88 =
-   100       SC_M_LsM     Merge sequential     108.90 =
-   100       SC_M_LsM     Merge     random     112.50 =
-   100       SC_M_LHM    Insert sequential       4.09 =
-   100       SC_M_LHM    Insert     random       3.87 =
-   100       SC_M_LHM       Get sequential       2.46 =
-   100       SC_M_LHM       Get     random       2.51 =
-   100       SC_M_LHM    Delete sequential       1.79 =
-   100       SC_M_LHM    Delete     random       1.81 =
-   100       SC_M_LHM    Update sequential       4.15 =
-   100       SC_M_LHM    Update     random       3.83 =
-   100       SC_M_LHM     Merge sequential       2.35 =
-   100       SC_M_LHM     Merge     random       1.97 =
-   100       SC_M_OHM    Insert sequential       3.67 =
-   100       SC_M_OHM    Insert     random       3.35 =
-   100       SC_M_OHM       Get sequential       1.51 =
-   100       SC_M_OHM       Get     random       1.50 =
-   100       SC_M_OHM    Delete sequential       1.40 =
-   100       SC_M_OHM    Delete     random       1.34 =
-   100       SC_M_OHM    Update sequential       3.67 =
-   100       SC_M_OHM    Update     random       3.49 =
-   100       SC_M_OHM     Merge sequential       2.08 =
-   100       SC_M_OHM     Merge     random       2.33 =
-   100        SC_I_HM    Insert sequential      11.72 =
-   100        SC_I_HM    Insert     random      13.45 =
-   100        SC_I_HM       Get sequential       3.19 =
-   100        SC_I_HM       Get     random       3.68 =
-   100        SC_I_HM    Delete sequential       2.02 =
-   100        SC_I_HM    Delete     random       2.41 =
-   100        SC_I_HM    Update sequential      11.69 =
-   100        SC_I_HM    Update     random      13.31 =
-   100        SC_I_HM     Merge sequential      11.14 =
-   100        SC_I_HM     Merge     random      11.60 =
-   100       SC_I_LoM    Insert sequential       8.11 =
-   100       SC_I_LoM    Insert     random       8.68 =
-   100       SC_I_LoM       Get sequential       2.63 =
-   100       SC_I_LoM       Get     random       2.60 =
-   100       SC_I_LoM    Delete sequential       1.30 =
-   100       SC_I_LoM    Delete     random       1.35 =
-   100       SC_I_LoM    Update sequential       8.00 =
-   100       SC_I_LoM    Update     random       8.79 =
-   100       SC_I_LoM     Merge sequential       1.72 =
-   100       SC_I_LoM     Merge     random       1.68 =
-   100        SC_I_IM    Insert sequential       8.04 =
-   100        SC_I_IM    Insert     random       8.47 =
-   100        SC_I_IM       Get sequential       2.64 =
-   100        SC_I_IM       Get     random       2.65 =
-   100        SC_I_IM    Delete sequential       1.25 =
-   100        SC_I_IM    Delete     random       1.64 =
-   100        SC_I_IM    Update sequential       7.99 =
-   100        SC_I_IM    Update     random       8.37 =
-   100        SC_I_IM     Merge sequential       1.70 =
-   100        SC_I_IM     Merge     random       1.84 =
-   100        SC_I_TM    Insert sequential      10.19 =
-   100        SC_I_TM    Insert     random      11.07 =
-   100        SC_I_TM       Get sequential       6.05 =
-   100        SC_I_TM       Get     random       6.10 =
-   100        SC_I_TM    Delete sequential       1.33 =
-   100        SC_I_TM    Delete     random       1.56 =
-   100        SC_I_TM    Update sequential       9.86 =
-   100        SC_I_TM    Update     random      11.27 =
-   100        SC_I_TM     Merge sequential       6.84 =
-   100        SC_I_TM     Merge     random       7.20 =
-  1000          JU_HM    Insert sequential      38.56 =
-  1000          JU_HM    Insert     random      44.59 =
-  1000          JU_HM       Get sequential      20.66 =
-  1000          JU_HM       Get     random      22.70 =
-  1000          JU_HM    Delete sequential      12.80 =
-  1000          JU_HM    Delete     random      11.78 =
-  1000          JU_HM    Update sequential      36.91 =
-  1000          JU_HM    Update     random      44.82 =
-  1000          JU_HM     Merge sequential      16.92 =
-  1000          JU_HM     Merge     random      24.79 =
-  1000        JU_C_HM    Insert sequential      62.70 =
-  1000        JU_C_HM    Insert     random      62.66 =
-  1000        JU_C_HM       Get sequential      28.43 =
-  1000        JU_C_HM       Get     random      29.19 =
-  1000        JU_C_HM    Delete sequential      32.70 =
-  1000        JU_C_HM    Delete     random      32.00 =
-  1000        JU_C_HM    Update sequential      65.19 =
-  1000        JU_C_HM    Update     random      63.17 =
-  1000        JU_C_HM     Merge sequential      37.93 =
-  1000        JU_C_HM     Merge     random      38.04 =
-  1000          JU_TM    Insert sequential      70.78 =
-  1000          JU_TM    Insert     random      84.65 =
-  1000          JU_TM       Get sequential      73.58 =
-  1000          JU_TM       Get     random      92.94 =
-  1000          JU_TM    Delete sequential      13.89 =
-  1000          JU_TM    Delete     random      12.33 =
-  1000          JU_TM    Update sequential      72.62 =
-  1000          JU_TM    Update     random      86.15 =
-  1000          JU_TM     Merge sequential      57.88 =
-  1000          JU_TM     Merge     random      53.80 =
-  1000        SC_M_HM    Insert sequential      44.69 =
-  1000        SC_M_HM    Insert     random      39.96 =
-  1000        SC_M_HM       Get sequential      35.49 =
-  1000        SC_M_HM       Get     random      29.05 =
-  1000        SC_M_HM    Delete sequential      23.52 =
-  1000        SC_M_HM    Delete     random      22.34 =
-  1000        SC_M_HM    Update sequential      39.22 =
-  1000        SC_M_HM    Update     random      36.19 =
-  1000        SC_M_HM     Merge sequential      26.42 =
-  1000        SC_M_HM     Merge     random      25.23 =
-  1000       SC_M_LoM    Insert sequential      36.09 =
-  1000       SC_M_LoM    Insert     random      33.40 =
-  1000       SC_M_LoM       Get sequential      17.52 =
-  1000       SC_M_LoM       Get     random      17.47 =
-  1000       SC_M_LoM    Delete sequential      29.41 =
-  1000       SC_M_LoM    Delete     random      30.27 =
-  1000       SC_M_LoM    Update sequential      32.49 =
-  1000       SC_M_LoM    Update     random      32.38 =
-  1000       SC_M_LoM     Merge sequential      20.83 =
-  1000       SC_M_LoM     Merge     random      23.70 =
-  1000       SC_M_LsM    Insert sequential   12458.06 =
-  1000       SC_M_LsM    Insert     random   12746.57 =
-  1000       SC_M_LsM       Get sequential    2832.98 =
-  1000       SC_M_LsM       Get     random    2859.91 =
-  1000       SC_M_LsM    Delete sequential      15.17 =
-  1000       SC_M_LsM    Delete     random      14.15 =
-  1000       SC_M_LsM    Update sequential   12301.16 =
-  1000       SC_M_LsM    Update     random   12675.31 =
-  1000       SC_M_LsM     Merge sequential   10906.66 =
-  1000       SC_M_LsM     Merge     random   11154.91 =
-  1000       SC_M_LHM    Insert sequential      46.13 =
-  1000       SC_M_LHM    Insert     random      37.69 =
-  1000       SC_M_LHM       Get sequential      33.84 =
-  1000       SC_M_LHM       Get     random      28.06 =
-  1000       SC_M_LHM    Delete sequential      24.46 =
-  1000       SC_M_LHM    Delete     random      23.06 =
-  1000       SC_M_LHM    Update sequential      41.74 =
-  1000       SC_M_LHM    Update     random      36.45 =
-  1000       SC_M_LHM     Merge sequential      24.85 =
-  1000       SC_M_LHM     Merge     random      21.86 =
-  1000       SC_M_OHM    Insert sequential      38.46 =
-  1000       SC_M_OHM    Insert     random      35.14 =
-  1000       SC_M_OHM       Get sequential      18.00 =
-  1000       SC_M_OHM       Get     random      18.63 =
-  1000       SC_M_OHM    Delete sequential      18.20 =
-  1000       SC_M_OHM    Delete     random      16.88 =
-  1000       SC_M_OHM    Update sequential      38.38 =
-  1000       SC_M_OHM    Update     random      34.39 =
-  1000       SC_M_OHM     Merge sequential      21.01 =
-  1000       SC_M_OHM     Merge     random      31.75 =
-  1000        SC_I_HM    Insert sequential     201.56 =
-  1000        SC_I_HM    Insert     random     201.00 =
-  1000        SC_I_HM       Get sequential      39.83 =
-  1000        SC_I_HM       Get     random      39.58 =
-  1000        SC_I_HM    Delete sequential      15.21 =
-  1000        SC_I_HM    Delete     random      16.33 =
-  1000        SC_I_HM    Update sequential     179.49 =
-  1000        SC_I_HM    Update     random     180.27 =
-  1000        SC_I_HM     Merge sequential     157.54 =
-  1000        SC_I_HM     Merge     random     158.15 =
-  1000       SC_I_LoM    Insert sequential     151.19 =
-  1000       SC_I_LoM    Insert     random     161.17 =
-  1000       SC_I_LoM       Get sequential      55.57 =
-  1000       SC_I_LoM       Get     random      67.67 =
-  1000       SC_I_LoM    Delete sequential      11.32 =
-  1000       SC_I_LoM    Delete     random      13.99 =
-  1000       SC_I_LoM    Update sequential     134.65 =
-  1000       SC_I_LoM    Update     random     159.23 =
-  1000       SC_I_LoM     Merge sequential      20.12 =
-  1000       SC_I_LoM     Merge     random      19.02 =
-  1000        SC_I_IM    Insert sequential     137.85 =
-  1000        SC_I_IM    Insert     random     145.46 =
-  1000        SC_I_IM       Get sequential      56.62 =
-  1000        SC_I_IM       Get     random      77.01 =
-  1000        SC_I_IM    Delete sequential      14.46 =
-  1000        SC_I_IM    Delete     random      12.41 =
-  1000        SC_I_IM    Update sequential     120.48 =
-  1000        SC_I_IM    Update     random     143.84 =
-  1000        SC_I_IM     Merge sequential      19.07 =
-  1000        SC_I_IM     Merge     random      20.13 =
-  1000        SC_I_TM    Insert sequential     187.64 =
-  1000        SC_I_TM    Insert     random     217.20 =
-  1000        SC_I_TM       Get sequential      73.86 =
-  1000        SC_I_TM       Get     random      88.55 =
-  1000        SC_I_TM    Delete sequential      13.05 =
-  1000        SC_I_TM    Delete     random      13.39 =
-  1000        SC_I_TM    Update sequential     192.69 =
-  1000        SC_I_TM    Update     random     222.41 =
-  1000        SC_I_TM     Merge sequential     160.95 =
-  1000        SC_I_TM     Merge     random     171.69 =
- 10000          JU_HM    Insert sequential     393.40 =
- 10000          JU_HM    Insert     random     489.79 =
- 10000          JU_HM       Get sequential     218.56 =
- 10000          JU_HM       Get     random     357.71 =
- 10000          JU_HM    Delete sequential     159.62 =
- 10000          JU_HM    Delete     random     173.90 =
- 10000          JU_HM    Update sequential     356.06 =
- 10000          JU_HM    Update     random     560.95 =
- 10000          JU_HM     Merge sequential     129.84 =
- 10000          JU_HM     Merge     random     281.03 =
- 10000        JU_C_HM    Insert sequential     739.38 =
- 10000        JU_C_HM    Insert     random     833.44 =
- 10000        JU_C_HM       Get sequential     386.89 =
- 10000        JU_C_HM       Get     random     430.61 =
- 10000        JU_C_HM    Delete sequential     344.29 =
- 10000        JU_C_HM    Delete     random     355.40 =
- 10000        JU_C_HM    Update sequential     761.97 =
- 10000        JU_C_HM    Update     random     854.57 =
- 10000        JU_C_HM     Merge sequential     391.43 =
- 10000        JU_C_HM     Merge     random     427.29 =
- 10000          JU_TM    Insert sequential     837.94 =
- 10000          JU_TM    Insert     random    1475.08 =
- 10000          JU_TM       Get sequential     899.20 =
- 10000          JU_TM       Get     random    1285.70 =
- 10000          JU_TM    Delete sequential     143.91 =
- 10000          JU_TM    Delete     random     204.60 =
- 10000          JU_TM    Update sequential     844.46 =
- 10000          JU_TM    Update     random    1447.58 =
- 10000          JU_TM     Merge sequential     628.49 =
- 10000          JU_TM     Merge     random     613.08 =
- 10000        SC_M_HM    Insert sequential     515.59 =
- 10000        SC_M_HM    Insert     random     487.62 =
- 10000        SC_M_HM       Get sequential     418.16 =
- 10000        SC_M_HM       Get     random     351.96 =
- 10000        SC_M_HM    Delete sequential     161.35 =
- 10000        SC_M_HM    Delete     random     179.87 =
- 10000        SC_M_HM    Update sequential     574.83 =
- 10000        SC_M_HM    Update     random     460.99 =
- 10000        SC_M_HM     Merge sequential     312.75 =
- 10000        SC_M_HM     Merge     random     336.30 =
- 10000       SC_M_LoM    Insert sequential     340.54 =
- 10000       SC_M_LoM    Insert     random     350.79 =
- 10000       SC_M_LoM       Get sequential     249.92 =
- 10000       SC_M_LoM       Get     random     259.43 =
- 10000       SC_M_LoM    Delete sequential     350.33 =
- 10000       SC_M_LoM    Delete     random     327.58 =
- 10000       SC_M_LoM    Update sequential     345.58 =
- 10000       SC_M_LoM    Update     random     364.48 =
- 10000       SC_M_LoM     Merge sequential     334.48 =
- 10000       SC_M_LoM     Merge     random     351.97 =
- 10000       SC_M_LsM    Insert sequential  981868.43 =============
- 10000       SC_M_LsM    Insert     random 1030394.61 ==============
- 10000       SC_M_LsM       Get sequential  281746.26 ===
- 10000       SC_M_LsM       Get     random  177777.00 ==
- 10000       SC_M_LsM    Delete sequential   24332.64 =
- 10000       SC_M_LsM    Delete     random   28737.01 =
- 10000       SC_M_LsM    Update sequential 2049001.19 ============================
- 10000       SC_M_LsM    Update     random 2124444.33 ==============================
- 10000       SC_M_LsM     Merge sequential 1553257.71 =====================
- 10000       SC_M_LsM     Merge     random 1513732.55 =====================
- 10000       SC_M_LHM    Insert sequential     547.61 =
- 10000       SC_M_LHM    Insert     random     473.37 =
- 10000       SC_M_LHM       Get sequential     380.56 =
- 10000       SC_M_LHM       Get     random     325.42 =
- 10000       SC_M_LHM    Delete sequential     165.62 =
- 10000       SC_M_LHM    Delete     random     175.24 =
- 10000       SC_M_LHM    Update sequential     515.52 =
- 10000       SC_M_LHM    Update     random     444.21 =
- 10000       SC_M_LHM     Merge sequential     346.61 =
- 10000       SC_M_LHM     Merge     random     329.65 =
- 10000       SC_M_OHM    Insert sequential     369.60 =
- 10000       SC_M_OHM    Insert     random     454.46 =
- 10000       SC_M_OHM       Get sequential     189.93 =
- 10000       SC_M_OHM       Get     random     282.24 =
- 10000       SC_M_OHM    Delete sequential     162.44 =
- 10000       SC_M_OHM    Delete     random     247.27 =
- 10000       SC_M_OHM    Update sequential     348.60 =
- 10000       SC_M_OHM    Update     random     548.58 =
- 10000       SC_M_OHM     Merge sequential     289.16 =
- 10000       SC_M_OHM     Merge     random     451.02 =
- 10000        SC_I_HM    Insert sequential    3191.05 =
- 10000        SC_I_HM    Insert     random    3480.03 =
- 10000        SC_I_HM       Get sequential     537.45 =
- 10000        SC_I_HM       Get     random     525.24 =
- 10000        SC_I_HM    Delete sequential     154.75 =
- 10000        SC_I_HM    Delete     random     203.33 =
- 10000        SC_I_HM    Update sequential    3155.70 =
- 10000        SC_I_HM    Update     random    3429.47 =
- 10000        SC_I_HM     Merge sequential    2252.38 =
- 10000        SC_I_HM     Merge     random    2292.35 =
- 10000       SC_I_LoM    Insert sequential    2304.15 =
- 10000       SC_I_LoM    Insert     random    3166.50 =
- 10000       SC_I_LoM       Get sequential     652.61 =
- 10000       SC_I_LoM       Get     random    1250.26 =
- 10000       SC_I_LoM    Delete sequential     128.78 =
- 10000       SC_I_LoM    Delete     random     171.38 =
- 10000       SC_I_LoM    Update sequential    2312.64 =
- 10000       SC_I_LoM    Update     random    2972.89 =
- 10000       SC_I_LoM     Merge sequential     225.68 =
- 10000       SC_I_LoM     Merge     random     280.36 =
- 10000        SC_I_IM    Insert sequential    1904.35 =
- 10000        SC_I_IM    Insert     random    3036.24 =
- 10000        SC_I_IM       Get sequential     681.47 =
- 10000        SC_I_IM       Get     random    1172.65 =
- 10000        SC_I_IM    Delete sequential     146.08 =
- 10000        SC_I_IM    Delete     random     157.96 =
- 10000        SC_I_IM    Update sequential    2138.03 =
- 10000        SC_I_IM    Update     random    2682.52 =
- 10000        SC_I_IM     Merge sequential     206.24 =
- 10000        SC_I_IM     Merge     random     301.56 =
- 10000        SC_I_TM    Insert sequential    2488.10 =
- 10000        SC_I_TM    Insert     random    4256.43 =
- 10000        SC_I_TM       Get sequential     841.33 =
- 10000        SC_I_TM       Get     random    1426.51 =
- 10000        SC_I_TM    Delete sequential     151.23 =
- 10000        SC_I_TM    Delete     random     154.81 =
- 10000        SC_I_TM    Update sequential    2478.95 =
- 10000        SC_I_TM    Update     random    4202.58 =
- 10000        SC_I_TM     Merge sequential    2214.27 =
- 10000        SC_I_TM     Merge     random    2178.99 =
+[0m[[0minfo[0m] [0mLoading project definition from /home/dave/src/scala-map-benchmarking/project[0m
+[0m[[0minfo[0m] [0mSet current project to scala-map-benchmarking (in build file:/home/dave/src/scala-map-benchmarking/)[0m
+[0m[[0minfo[0m] [0mRunning cat.dvmlls.Runner --warmupMillis 3000 --runMillis 1000[0m
+[0m[[0minfo[0m] [0m 0% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_HM, length=100, order=sequential} 3511.58 ns; σ=15.83 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 0% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_HM, length=100, order=sequential} 2059.54 ns; σ=10.76 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 1% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_HM, length=100, order=sequential} 1395.51 ns; σ=3.77 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 1% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_HM, length=100, order=sequential} 3474.95 ns; σ=16.36 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 1% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_HM, length=100, order=sequential} 1105.28 ns; σ=5.21 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 1% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_C_HM, length=100, order=sequential} 6175.14 ns; σ=13.91 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 2% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_C_HM, length=100, order=sequential} 2604.67 ns; σ=11.94 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 2% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_C_HM, length=100, order=sequential} 3629.46 ns; σ=23.38 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 2% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_C_HM, length=100, order=sequential} 6173.14 ns; σ=43.64 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 3% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_C_HM, length=100, order=sequential} 3766.83 ns; σ=28.13 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 3% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_TM, length=100, order=sequential} 4426.30 ns; σ=7.42 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 3% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_TM, length=100, order=sequential} 3739.55 ns; σ=117.28 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m 3% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_TM, length=100, order=sequential} 1439.58 ns; σ=4.84 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 4% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_TM, length=100, order=sequential} 4445.20 ns; σ=24.46 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 4% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_TM, length=100, order=sequential} 1905.21 ns; σ=8.45 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 4% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_HM, length=100, order=sequential} 4013.34 ns; σ=12.30 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 4% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_HM, length=100, order=sequential} 2904.57 ns; σ=15.25 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 5% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_HM, length=100, order=sequential} 2189.70 ns; σ=8.94 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 5% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_HM, length=100, order=sequential} 4227.00 ns; σ=15.74 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 5% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_HM, length=100, order=sequential} 2114.32 ns; σ=8.78 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 6% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LoM, length=100, order=sequential} 3247.44 ns; σ=11.37 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 6% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LoM, length=100, order=sequential} 1700.25 ns; σ=10.48 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 6% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LoM, length=100, order=sequential} 2229.41 ns; σ=20.75 ns @ 5 trials[0m
+[0m[[0minfo[0m] [0m 6% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LoM, length=100, order=sequential} 3198.87 ns; σ=5.45 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 7% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LoM, length=100, order=sequential} 1418.34 ns; σ=2.58 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 7% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LsM, length=100, order=sequential} 135533.06 ns; σ=668.78 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 7% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LsM, length=100, order=sequential} 35683.99 ns; σ=88.33 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 8% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LsM, length=100, order=sequential} 2032.09 ns; σ=9.07 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 8% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LsM, length=100, order=sequential} 93244.68 ns; σ=766.10 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 8% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LsM, length=100, order=sequential} 133305.88 ns; σ=225.97 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 8% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LHM, length=100, order=sequential} 4111.10 ns; σ=5.37 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 9% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LHM, length=100, order=sequential} 2912.81 ns; σ=6.17 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 9% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LHM, length=100, order=sequential} 2182.74 ns; σ=2.54 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m 9% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LHM, length=100, order=sequential} 4491.10 ns; σ=44.07 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m 9% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LHM, length=100, order=sequential} 1887.19 ns; σ=13.75 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m10% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_OHM, length=100, order=sequential} 3542.76 ns; σ=8.58 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m10% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_OHM, length=100, order=sequential} 1889.51 ns; σ=10.39 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m10% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_OHM, length=100, order=sequential} 1663.89 ns; σ=2.97 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m11% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_OHM, length=100, order=sequential} 3854.61 ns; σ=19.67 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m11% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_OHM, length=100, order=sequential} 3553.42 ns; σ=39.42 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m11% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_HM, length=100, order=sequential} 10937.73 ns; σ=73.48 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m11% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_HM, length=100, order=sequential} 3293.79 ns; σ=12.50 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m12% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_HM, length=100, order=sequential} 1257.94 ns; σ=1.88 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m12% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_HM, length=100, order=sequential} 10598.04 ns; σ=71.58 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m12% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_HM, length=100, order=sequential} 16737.42 ns; σ=61.38 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m13% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_LoM, length=100, order=sequential} 7694.20 ns; σ=12.50 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m13% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_LoM, length=100, order=sequential} 2571.46 ns; σ=6.58 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m13% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_LoM, length=100, order=sequential} 1084.53 ns; σ=4.01 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m13% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_LoM, length=100, order=sequential} 7643.29 ns; σ=21.62 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m14% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_LoM, length=100, order=sequential} 2296.50 ns; σ=13.80 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m14% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_IM, length=100, order=sequential} 7761.72 ns; σ=11.54 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m14% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_IM, length=100, order=sequential} 3348.60 ns; σ=8.55 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m14% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_IM, length=100, order=sequential} 1121.59 ns; σ=3.35 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m15% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_IM, length=100, order=sequential} 7692.02 ns; σ=101.62 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m15% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_IM, length=100, order=sequential} 2298.25 ns; σ=15.17 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m15% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_TM, length=100, order=sequential} 10087.77 ns; σ=320.74 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m16% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_TM, length=100, order=sequential} 6508.05 ns; σ=331.04 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m16% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_TM, length=100, order=sequential} 1537.49 ns; σ=7.43 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m16% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_TM, length=100, order=sequential} 9723.89 ns; σ=13.67 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m16% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_TM, length=100, order=sequential} 8090.04 ns; σ=36.11 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m17% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_HM, length=1000, order=sequential} 51842.98 ns; σ=223.66 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m17% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_HM, length=1000, order=sequential} 22762.62 ns; σ=27.02 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m17% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_HM, length=1000, order=sequential} 13178.95 ns; σ=72.01 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m18% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_HM, length=1000, order=sequential} 51831.88 ns; σ=1566.52 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m18% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_HM, length=1000, order=sequential} 17606.92 ns; σ=714.42 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m18% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_C_HM, length=1000, order=sequential} 65433.14 ns; σ=3045.23 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m18% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_C_HM, length=1000, order=sequential} 33849.04 ns; σ=461.94 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m19% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_C_HM, length=1000, order=sequential} 42170.32 ns; σ=3007.28 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m19% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_C_HM, length=1000, order=sequential} 70794.29 ns; σ=8491.20 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m19% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_C_HM, length=1000, order=sequential} 38186.44 ns; σ=146.86 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m19% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_TM, length=1000, order=sequential} 76948.84 ns; σ=522.44 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m20% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_TM, length=1000, order=sequential} 73618.19 ns; σ=91.85 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m20% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_TM, length=1000, order=sequential} 14524.62 ns; σ=16.73 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m20% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_TM, length=1000, order=sequential} 72967.53 ns; σ=349.30 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m21% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_TM, length=1000, order=sequential} 58587.04 ns; σ=245.35 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m21% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_HM, length=1000, order=sequential} 40340.39 ns; σ=144.41 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m21% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_HM, length=1000, order=sequential} 35083.42 ns; σ=223.02 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m21% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_HM, length=1000, order=sequential} 16105.51 ns; σ=25.04 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m22% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_HM, length=1000, order=sequential} 39255.83 ns; σ=55.67 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m22% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_HM, length=1000, order=sequential} 19764.03 ns; σ=64.59 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m22% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LoM, length=1000, order=sequential} 33265.96 ns; σ=61.49 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m23% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LoM, length=1000, order=sequential} 19453.18 ns; σ=117.46 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m23% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LoM, length=1000, order=sequential} 29755.65 ns; σ=206.59 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m23% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LoM, length=1000, order=sequential} 30675.86 ns; σ=61.64 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m23% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LoM, length=1000, order=sequential} 15985.49 ns; σ=78.89 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m24% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LsM, length=1000, order=sequential} 12312126.34 ns; σ=386587.86 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m24% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LsM, length=1000, order=sequential} 3112340.64 ns; σ=23182.66 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m24% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LsM, length=1000, order=sequential} 21403.83 ns; σ=179.19 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m24% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LsM, length=1000, order=sequential} 7508778.61 ns; σ=89008.27 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m25% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LsM, length=1000, order=sequential} 9980301.88 ns; σ=100611.54 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m25% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LHM, length=1000, order=sequential} 43882.90 ns; σ=279.38 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m25% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LHM, length=1000, order=sequential} 28532.14 ns; σ=109.82 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m26% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LHM, length=1000, order=sequential} 16233.18 ns; σ=38.09 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m26% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LHM, length=1000, order=sequential} 45123.68 ns; σ=293.38 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m26% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LHM, length=1000, order=sequential} 22210.29 ns; σ=164.33 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m26% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_OHM, length=1000, order=sequential} 36896.98 ns; σ=124.77 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m27% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_OHM, length=1000, order=sequential} 21905.98 ns; σ=132.28 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m27% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_OHM, length=1000, order=sequential} 20821.15 ns; σ=143.39 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m27% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_OHM, length=1000, order=sequential} 37172.70 ns; σ=104.64 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m28% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_OHM, length=1000, order=sequential} 32259.32 ns; σ=78.45 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m28% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_HM, length=1000, order=sequential} 190250.76 ns; σ=1376.46 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m28% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_HM, length=1000, order=sequential} 43913.16 ns; σ=138.43 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m28% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_HM, length=1000, order=sequential} 16612.09 ns; σ=110.75 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m29% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_HM, length=1000, order=sequential} 164126.37 ns; σ=627.01 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m29% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_HM, length=1000, order=sequential} 240650.44 ns; σ=1241.42 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m29% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_LoM, length=1000, order=sequential} 151104.84 ns; σ=531.92 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m29% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_LoM, length=1000, order=sequential} 54921.84 ns; σ=331.14 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m30% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_LoM, length=1000, order=sequential} 12132.70 ns; σ=55.01 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m30% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_LoM, length=1000, order=sequential} 138059.82 ns; σ=472.87 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m30% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_LoM, length=1000, order=sequential} 25491.12 ns; σ=18.55 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m31% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_IM, length=1000, order=sequential} 137427.98 ns; σ=739.43 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m31% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_IM, length=1000, order=sequential} 59265.10 ns; σ=445.77 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m31% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_IM, length=1000, order=sequential} 12132.72 ns; σ=101.37 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m31% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_IM, length=1000, order=sequential} 119141.98 ns; σ=1163.81 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m32% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_IM, length=1000, order=sequential} 26187.01 ns; σ=77.79 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m32% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_TM, length=1000, order=sequential} 184360.15 ns; σ=484.91 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m32% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_TM, length=1000, order=sequential} 108353.90 ns; σ=618.10 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m33% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_TM, length=1000, order=sequential} 14475.22 ns; σ=30.05 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m33% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_TM, length=1000, order=sequential} 185297.72 ns; σ=492.79 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m33% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_TM, length=1000, order=sequential} 160628.47 ns; σ=271.93 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m33% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_HM, length=10000, order=sequential} 444568.57 ns; σ=6707.20 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m34% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_HM, length=10000, order=sequential} 252438.71 ns; σ=483.46 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m34% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_HM, length=10000, order=sequential} 159802.55 ns; σ=63.21 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m34% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_HM, length=10000, order=sequential} 376216.16 ns; σ=4514.96 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m34% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_HM, length=10000, order=sequential} 187567.06 ns; σ=1481.40 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m35% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_C_HM, length=10000, order=sequential} 687178.84 ns; σ=8554.71 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m35% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_C_HM, length=10000, order=sequential} 369778.11 ns; σ=25426.53 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m35% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_C_HM, length=10000, order=sequential} 304137.61 ns; σ=595.74 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m36% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_C_HM, length=10000, order=sequential} 710746.90 ns; σ=3416.64 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m36% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_C_HM, length=10000, order=sequential} 437362.29 ns; σ=1316.93 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m36% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_TM, length=10000, order=sequential} 813363.15 ns; σ=7977.94 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m36% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_TM, length=10000, order=sequential} 646530.28 ns; σ=9423.59 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m37% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_TM, length=10000, order=sequential} 160288.02 ns; σ=1141.62 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m37% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_TM, length=10000, order=sequential} 845101.37 ns; σ=6211.11 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m37% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_TM, length=10000, order=sequential} 706375.93 ns; σ=3627.32 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m38% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_HM, length=10000, order=sequential} 563824.74 ns; σ=4079.81 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m38% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_HM, length=10000, order=sequential} 401177.53 ns; σ=6580.37 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m38% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_HM, length=10000, order=sequential} 178561.81 ns; σ=1068.26 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m38% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_HM, length=10000, order=sequential} 551256.53 ns; σ=5314.54 ns @ 5 trials[0m
+[0m[[0minfo[0m] [0m39% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_HM, length=10000, order=sequential} 297123.83 ns; σ=1501.45 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m39% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LoM, length=10000, order=sequential} 347836.76 ns; σ=10653.03 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m39% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LoM, length=10000, order=sequential} 252526.38 ns; σ=1977.70 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m39% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LoM, length=10000, order=sequential} 321383.18 ns; σ=629.00 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m40% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LoM, length=10000, order=sequential} 347750.51 ns; σ=7123.43 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m40% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LoM, length=10000, order=sequential} 288444.12 ns; σ=1503.18 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m40% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LsM, length=10000, order=sequential} 937156123.00 ns; σ=66793218.74 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m41% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LsM, length=10000, order=sequential} 155310199.00 ns; σ=1543192.16 ns @ 7 trials[0m
+[0m[[0minfo[0m] [0m41% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LsM, length=10000, order=sequential} 24168811.41 ns; σ=9367026.22 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m41% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LsM, length=10000, order=sequential} 1442442929.00 ns; σ=6407119.74 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m41% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LsM, length=10000, order=sequential} 701145353.00 ns; σ=2909242.07 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m42% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LHM, length=10000, order=sequential} 488629.19 ns; σ=4673.55 ns @ 8 trials[0m
+[0m[[0minfo[0m] [0m42% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LHM, length=10000, order=sequential} 368611.71 ns; σ=3666.91 ns @ 9 trials[0m
+[0m[[0minfo[0m] [0m42% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LHM, length=10000, order=sequential} 177130.36 ns; σ=54.06 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m43% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LHM, length=10000, order=sequential} 534451.00 ns; σ=5963.01 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m43% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LHM, length=10000, order=sequential} 274268.13 ns; σ=4827.48 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m43% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_OHM, length=10000, order=sequential} 371991.64 ns; σ=4329.89 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m43% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_OHM, length=10000, order=sequential} 175700.59 ns; σ=928.40 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m44% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_OHM, length=10000, order=sequential} 207237.57 ns; σ=1011.06 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m44% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_OHM, length=10000, order=sequential} 361691.18 ns; σ=18634.96 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m44% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_OHM, length=10000, order=sequential} 464635.32 ns; σ=4124.53 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m44% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_HM, length=10000, order=sequential} 3056132.58 ns; σ=8494.05 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m45% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_HM, length=10000, order=sequential} 549164.02 ns; σ=16668.44 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m45% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_HM, length=10000, order=sequential} 159135.05 ns; σ=1481.03 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m45% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_HM, length=10000, order=sequential} 3050981.98 ns; σ=185082.39 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m46% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_HM, length=10000, order=sequential} 3650553.33 ns; σ=11343.50 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m46% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_LoM, length=10000, order=sequential} 2298407.66 ns; σ=14741.47 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m46% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_LoM, length=10000, order=sequential} 681087.63 ns; σ=6660.89 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m46% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_LoM, length=10000, order=sequential} 132983.40 ns; σ=503.44 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m47% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_LoM, length=10000, order=sequential} 2277368.98 ns; σ=32822.97 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m47% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_LoM, length=10000, order=sequential} 329329.24 ns; σ=7529.55 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m47% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_IM, length=10000, order=sequential} 2146191.02 ns; σ=19466.52 ns @ 4 trials[0m
+[0m[[0minfo[0m] [0m48% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_IM, length=10000, order=sequential} 650743.55 ns; σ=4273.59 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m48% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_IM, length=10000, order=sequential} 132911.01 ns; σ=2776.38 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m48% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_IM, length=10000, order=sequential} 2038556.69 ns; σ=23359.81 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m48% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_IM, length=10000, order=sequential} 306414.61 ns; σ=1441.04 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m49% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_TM, length=10000, order=sequential} 2424274.83 ns; σ=10501.43 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m49% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_TM, length=10000, order=sequential} 624137.66 ns; σ=7053.65 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m49% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_TM, length=10000, order=sequential} 151347.36 ns; σ=1312.81 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m49% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_TM, length=10000, order=sequential} 2457322.86 ns; σ=18203.72 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m50% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_TM, length=10000, order=sequential} 2206199.32 ns; σ=4540.95 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m50% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_HM, length=100, order=random} 3790.41 ns; σ=34.76 ns @ 6 trials[0m
+[0m[[0minfo[0m] [0m50% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_HM, length=100, order=random} 2051.40 ns; σ=19.15 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m51% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_HM, length=100, order=random} 1138.59 ns; σ=10.70 ns @ 7 trials[0m
+[0m[[0minfo[0m] [0m51% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_HM, length=100, order=random} 4738.90 ns; σ=21.03 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m51% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_HM, length=100, order=random} 1590.68 ns; σ=62.05 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m51% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_C_HM, length=100, order=random} 6267.87 ns; σ=283.09 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m52% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_C_HM, length=100, order=random} 2861.55 ns; σ=169.38 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m52% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_C_HM, length=100, order=random} 3587.90 ns; σ=414.25 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m52% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_C_HM, length=100, order=random} 6493.43 ns; σ=193.22 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m53% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_C_HM, length=100, order=random} 3588.20 ns; σ=19.34 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m53% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_TM, length=100, order=random} 4023.56 ns; σ=34.47 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m53% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_TM, length=100, order=random} 3641.41 ns; σ=261.24 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m53% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_TM, length=100, order=random} 1134.11 ns; σ=52.42 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m54% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_TM, length=100, order=random} 4333.88 ns; σ=9.41 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m54% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_TM, length=100, order=random} 2299.36 ns; σ=21.14 ns @ 6 trials[0m
+[0m[[0minfo[0m] [0m54% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_HM, length=100, order=random} 3534.68 ns; σ=23.62 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m54% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_HM, length=100, order=random} 2688.92 ns; σ=95.85 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m55% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_HM, length=100, order=random} 2027.05 ns; σ=6.15 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m55% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_HM, length=100, order=random} 3546.17 ns; σ=10.11 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m55% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_HM, length=100, order=random} 2103.82 ns; σ=98.02 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m56% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LoM, length=100, order=random} 3190.35 ns; σ=561.38 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m56% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LoM, length=100, order=random} 1514.05 ns; σ=50.26 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m56% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LoM, length=100, order=random} 1984.04 ns; σ=10.71 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m56% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LoM, length=100, order=random} 2970.48 ns; σ=14.62 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m57% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LoM, length=100, order=random} 1745.18 ns; σ=8.24 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m57% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LsM, length=100, order=random} 131852.64 ns; σ=661.02 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m57% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LsM, length=100, order=random} 32900.83 ns; σ=53.80 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m57% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LsM, length=100, order=random} 1508.74 ns; σ=5.95 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m58% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LsM, length=100, order=random} 93360.30 ns; σ=916.45 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m58% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LsM, length=100, order=random} 180890.19 ns; σ=10073.46 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m58% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_LHM, length=100, order=random} 3907.25 ns; σ=11.17 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m59% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_LHM, length=100, order=random} 2737.83 ns; σ=92.30 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m59% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_LHM, length=100, order=random} 2051.67 ns; σ=8.73 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m59% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_LHM, length=100, order=random} 3824.48 ns; σ=18.76 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m59% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_LHM, length=100, order=random} 1848.86 ns; σ=14.07 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m60% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_M_OHM, length=100, order=random} 3109.65 ns; σ=18.63 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m60% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_M_OHM, length=100, order=random} 1520.37 ns; σ=4.71 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m60% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_M_OHM, length=100, order=random} 1291.62 ns; σ=1.15 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m61% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_M_OHM, length=100, order=random} 3112.09 ns; σ=30.01 ns @ 4 trials[0m
+[0m[[0minfo[0m] [0m61% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_M_OHM, length=100, order=random} 3820.28 ns; σ=13.30 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m61% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_HM, length=100, order=random} 11303.01 ns; σ=194.52 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m61% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_HM, length=100, order=random} 3529.84 ns; σ=209.32 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m62% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_HM, length=100, order=random} 1222.49 ns; σ=22.78 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m62% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_HM, length=100, order=random} 11698.41 ns; σ=782.33 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m62% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_HM, length=100, order=random} 22627.14 ns; σ=72.90 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m63% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_LoM, length=100, order=random} 8348.74 ns; σ=67.31 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m63% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_LoM, length=100, order=random} 2498.02 ns; σ=15.56 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m63% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_LoM, length=100, order=random} 1050.85 ns; σ=17.21 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m63% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_LoM, length=100, order=random} 8284.30 ns; σ=20.06 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m64% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_LoM, length=100, order=random} 3294.36 ns; σ=189.98 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m64% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_IM, length=100, order=random} 7996.14 ns; σ=43.32 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m64% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_IM, length=100, order=random} 4668.24 ns; σ=828.87 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m64% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_IM, length=100, order=random} 1825.78 ns; σ=347.39 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m65% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_IM, length=100, order=random} 7765.18 ns; σ=43.31 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m65% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_IM, length=100, order=random} 3078.45 ns; σ=38.14 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m65% Scenario{vm=java, trial=0, benchmark=Insert, implementation=SC_I_TM, length=100, order=random} 16926.98 ns; σ=3403.65 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m66% Scenario{vm=java, trial=0, benchmark=Get, implementation=SC_I_TM, length=100, order=random} 3679.49 ns; σ=152.97 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m66% Scenario{vm=java, trial=0, benchmark=Delete, implementation=SC_I_TM, length=100, order=random} 1423.91 ns; σ=182.95 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m66% Scenario{vm=java, trial=0, benchmark=Update, implementation=SC_I_TM, length=100, order=random} 10642.68 ns; σ=1450.36 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m66% Scenario{vm=java, trial=0, benchmark=Merge, implementation=SC_I_TM, length=100, order=random} 10415.64 ns; σ=3129.93 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m67% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_HM, length=1000, order=random} 45767.09 ns; σ=2788.58 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m67% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_HM, length=1000, order=random} 23103.77 ns; σ=1007.51 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m67% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_HM, length=1000, order=random} 14952.08 ns; σ=119.75 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m68% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_HM, length=1000, order=random} 45607.49 ns; σ=372.06 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m68% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_HM, length=1000, order=random} 20693.10 ns; σ=260.12 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m68% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_C_HM, length=1000, order=random} 60098.05 ns; σ=245.84 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m68% Scenario{vm=java, trial=0, benchmark=Get, implementation=JU_C_HM, length=1000, order=random} 26044.34 ns; σ=53.29 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m69% Scenario{vm=java, trial=0, benchmark=Delete, implementation=JU_C_HM, length=1000, order=random} 32369.37 ns; σ=140.36 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m69% Scenario{vm=java, trial=0, benchmark=Update, implementation=JU_C_HM, length=1000, order=random} 61793.14 ns; σ=323.86 ns @ 3 trials[0m
+[0m[[0minfo[0m] [0m69% Scenario{vm=java, trial=0, benchmark=Merge, implementation=JU_C_HM, length=1000, order=random} 34562.06 ns; σ=856.32 ns @ 10 trials[0m
+[0m[[0minfo[0m] [0m69% Scenario{vm=java, trial=0, benchmark=Insert, implementation=JU_TM, length=1000, order=random} 85700.33 ns; σ=640.69 ns @ 3 trials[0m
