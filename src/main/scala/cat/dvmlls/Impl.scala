@@ -10,6 +10,7 @@ trait Impl[T, K] {
   def remove(n:K):K
   def get(n:K):Double
   def merge(m:T):Int
+  def size:Int
 }
 
 trait MutableImpl[T, K] extends Impl[T, K] { }
@@ -20,6 +21,7 @@ trait JU[T <: util.Map[Int,Double]] extends MutableImpl[T, Int] {
   override def remove(n: Int): Int = { map.remove(n) ; n }
   override def get(n:Int):Double = map.get(n)
   override def merge(m:T):Int = { map.putAll(m); map.size }
+  override def size:Int = map.size()
 }
 
 class JU_HM (capacity:Int) extends JU [util.HashMap[Int,Double]] { override val map = new util.HashMap[Int,Double](capacity) }
@@ -32,6 +34,7 @@ trait SC_M[T <: mutable.Map[K,Double], K] extends MutableImpl[T, K] {
   override def remove(n:K):K = { map.remove(n) ; n }
   override def get(n:K):Double = map.get(n).get
   override def merge(m:T):Int = { map ++= m; map.size }
+  override def size:Int = map.size
 }
 
 class SC_M_HM () extends SC_M [mutable.HashMap[Int,Double], Int] { override val map = new mutable.HashMap[Int,Double]() }
@@ -42,6 +45,7 @@ class SC_M_LoM (capacity:Int) extends SC_M [mutable.LongMap[Double], Long] { ove
 
 trait SC_I[T <: immutable.Map[K,Double], K] extends Impl[T, K] {
   override def get(n:K):Double = map.get(n).get
+  override def size:Int = map.size
 }
 
 class SC_I_TM () extends SC_I [immutable.TreeMap[Int,Double], Int] {

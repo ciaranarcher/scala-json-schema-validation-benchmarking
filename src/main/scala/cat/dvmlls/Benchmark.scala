@@ -3,6 +3,12 @@ package cat.dvmlls
 import com.google.caliper.Param
 import java.util.Random
 
+class Sequences(isRandom:Boolean, length:Int)(implicit r:Random) {
+  def s = 0 until length
+  def ints = if (!isRandom) s else s.map(_ => r.nextInt()/2).distinct
+  def longs = if (!isRandom) s.map(_.toLong) else s.map(_ => r.nextLong()/2).distinct
+}
+
 class Benchmark extends SimpleScalaBenchmark {
 
   @Param(Array("sequential", "random"))
@@ -21,14 +27,12 @@ class Benchmark extends SimpleScalaBenchmark {
 
   var tester:Tester[_,_] = _
 
-  def s = 0 until length
-
-  def ints = if (order == "sequential") s else s.map(_ => r.nextInt()/2).distinct
-  def longs = if (order == "sequential") s.map(_.toLong) else s.map(_ => r.nextLong()/2).distinct
-
   override def setUp(): Unit = {
-    implicit lazy val intIndexes:Seq[Int] = ints
-    implicit lazy val longIndexes:Seq[Long] = longs
+
+    lazy val sequences = new Sequences(order == "sequential", length)
+
+    implicit lazy val intIndexes:Seq[Int] = sequences.ints
+    implicit lazy val longIndexes:Seq[Long] = sequences.longs
 
     tester = implementation match {
       case "JU_HM" => new Tester(() => new JU_HM(length))
