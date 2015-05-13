@@ -49,10 +49,10 @@ class Benchmark extends SimpleScalaBenchmark {
       case "SC_I_LoM" => new Tester(() => new SC_I_LoM())
       case "SC_I_IM" => new Tester(() => new SC_I_IM())
       case "SC_I_TM" => new Tester(() => new SC_I_TM())
-      case "TR_HM" => new Tester(() => new TR_HM[Int]())
-      case "TR_IDHM" => new Tester(() => new TR_IDHM())
-      case "HPPC_IDHM" => new Tester(() => new HPPC_IDHM())
-      case "HPPC_IDSM" => new Tester(() => new HPPC_IDSM())
+      case "TR_HM" => new Tester(() => new TR_HM[Int](length))
+      case "TR_IDHM" => new Tester(() => new TR_IDHM(length))
+      case "HPPC_IDHM" => new Tester(() => new HPPC_IDHM(length))
+      case "HPPC_IDSM" => new Tester(() => new HPPC_IDSM(length))
     }
   }
 
