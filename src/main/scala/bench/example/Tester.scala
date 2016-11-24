@@ -1,7 +1,8 @@
-package cat.dvmlls
+package bench.example
 
 import java.util.Random
 
+/*
 class Tester[T,K](create:() => Impl[T, K])(implicit r:Random, n:Numeric[K], indexes:Seq[K]) {
   val empty:Impl[T, K] = create()
   val full:Impl[T, K] = {
@@ -20,4 +21,4 @@ class Tester[T,K](create:() => Impl[T, K])(implicit r:Random, n:Numeric[K], inde
   def get() = indexes.map(full.get)
   def delete() = indexes.map(full.remove)
   def update() = indexes.map(k => full.update(k, r.nextDouble()))
-}
+}*/

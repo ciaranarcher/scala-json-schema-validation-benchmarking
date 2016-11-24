@@ -5,6 +5,7 @@ import org.scalatest._
 import org.scalatest.junit.JUnitRunner
 import java.util.Random
 
+import bench.example.{JU_HM, Sequences, Tester}
 import org.scalacheck._
 import org.scalatest.prop.Checkers
 import org.scalacheck.Arbitrary._

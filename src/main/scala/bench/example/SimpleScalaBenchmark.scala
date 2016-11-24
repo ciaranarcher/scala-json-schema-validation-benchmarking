@@ -1,4 +1,4 @@
-package cat.dvmlls
+package bench.example
 
 import com.google.caliper.SimpleBenchmark
 
