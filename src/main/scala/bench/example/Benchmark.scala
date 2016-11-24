@@ -7,6 +7,8 @@ import java.io.File
 import com.eclipsesource.schema.{SchemaType, SchemaValidator}
 import play.api.libs.json._
 
+import scala.io.Source
+
 class Sequences(isRandom:Boolean, length:Int)(implicit r:Random) {
   def s = 0 until length
   def ints = if (!isRandom) s else s.map(_ => r.nextInt()/2).distinct
@@ -25,21 +27,24 @@ class Benchmark extends SimpleScalaBenchmark {
 
 
   // set up all your benchmark data here
-  val array = new Array(length)
+  val playSchemaValidator = new PlaySchemaValidator()
 
+
+  // the actual code you'd like to test needs to live in one or more methods
+  // whose names begin with 'time' and which accept a single 'reps: Int' parameter
+  // the body of the method simply executes the code we wish to measure, 'reps' times
+  // you can use the 'repeat' method from the SimpleScalaBenchmark trait to repeat with relatively low overhead
+  // however, if your code snippet is very fast you might want to implement the reps loop directly with 'while'
+  def timeForValidate(reps: Int) = repeat(reps) {
+    playSchemaValidator.validate
+  }
+}
+
+class PlaySchemaValidator {
   /*
    * Read the schema and create a validator
    */
-  val schemaPath = {
-    new File(".", "resources/page_view.schema.json").getCanonicalPath
-  }
-
-  val jsonSchema = {
-    val document = scala.io.Source.fromInputStream(getClass.getResourceAsStream("page_view.schema.json"))
-    val source = try document.mkString finally document.close()
-    Json.parse(source)
-  }
-
+  val jsonSchema = loadJson("page_view.schema.json")
   log("schema read successfully")
 
   val schema = Json.fromJson[SchemaType](jsonSchema).get
@@ -48,31 +53,23 @@ class Benchmark extends SimpleScalaBenchmark {
   /*
    * Read the sample JSON document
    */
-  val documentJson = {
-    val document = scala.io.Source.fromInputStream(getClass.getResourceAsStream("page_view.sample.json"))
+  val documentJson = loadJson("page_view.sample.json")
+  log("document read successfully")
+
+  def loadJson(resourceName: String) = {
+    val document = Source.fromInputStream(getClass.getResourceAsStream(resourceName))
     val documentData = try document.mkString finally document.close()
     Json.parse(documentData)
   }
 
-  def log(str: String) = { println(s">> BENCH >> ${str}") }
+  def log(str: String) = println(s">> BENCH >> ${str}")
 
-  // the actual code you'd like to test needs to live in one or more methods
-  // whose names begin with 'time' and which accept a single 'reps: Int' parameter
-  // the body of the method simply executes the code we wish to measure, 'reps' times
-  // you can use the 'repeat' method from the SimpleScalaBenchmark trait to repeat with relatively low overhead
-  // however, if your code snippet is very fast you might want to implement the reps loop directly with 'while'
-  def timeForValidate(reps: Int) = repeat(reps) {
-    //////////////////// CODE SNIPPET ONE ////////////////////
-
+  def validate = {
     val result = validator.validate(schema, documentJson)
     result match {
       case _: JsError => println(s"\n\nDocument is invalid: ${result}\n")
       case default => println("\n\nDocument is valid.\n")
     }
-    result // always have your snippet return a value that cannot easily be "optimized away"
-
-    //////////////////////////////////////////////////////////
+    result
   }
-
-  override def tearDown(): Unit = { }
 }
