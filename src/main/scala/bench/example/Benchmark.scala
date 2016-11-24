@@ -2,6 +2,10 @@ package bench.example
 
 import com.google.caliper.Param
 import java.util.Random
+import java.io.File
+
+import com.eclipsesource.schema.{SchemaType, SchemaValidator}
+import play.api.libs.json._
 
 class Sequences(isRandom:Boolean, length:Int)(implicit r:Random) {
   def s = 0 until length
@@ -19,24 +23,51 @@ class Benchmark extends SimpleScalaBenchmark {
   @Param(Array("10", "100", "1000", "10000"))
   val length: Int = 0
 
-  var array: Array[Int] = _
 
-  override def setUp() {
-    // set up all your benchmark data here
-    array = new Array(length)
+  // set up all your benchmark data here
+  val array = new Array(length)
+
+  /*
+   * Read the schema and create a validator
+   */
+  val schemaPath = {
+    new File(".", "resources/page_view.schema.json").getCanonicalPath
   }
+
+  val jsonSchema = {
+    val document = scala.io.Source.fromInputStream(getClass.getResourceAsStream("page_view.schema.json"))
+    val source = try document.mkString finally document.close()
+    Json.parse(source)
+  }
+
+  log("schema read successfully")
+
+  val schema = Json.fromJson[SchemaType](jsonSchema).get
+  val validator = new SchemaValidator
+
+  /*
+   * Read the sample JSON document
+   */
+  val documentJson = {
+    val document = scala.io.Source.fromInputStream(getClass.getResourceAsStream("page_view.sample.json"))
+    val documentData = try document.mkString finally document.close()
+    Json.parse(documentData)
+  }
+
+  def log(str: String) = { println(s">> BENCH >> ${str}") }
 
   // the actual code you'd like to test needs to live in one or more methods
   // whose names begin with 'time' and which accept a single 'reps: Int' parameter
   // the body of the method simply executes the code we wish to measure, 'reps' times
   // you can use the 'repeat' method from the SimpleScalaBenchmark trait to repeat with relatively low overhead
   // however, if your code snippet is very fast you might want to implement the reps loop directly with 'while'
-  def timeForeach(reps: Int) = repeat(reps) {
+  def timeForValidate(reps: Int) = repeat(reps) {
     //////////////////// CODE SNIPPET ONE ////////////////////
 
-    var result = 0
-    array.foreach {
-      result += _
+    val result = validator.validate(schema, documentJson)
+    result match {
+      case _: JsError => println(s"\n\nDocument is invalid: ${result}\n")
+      case default => println("\n\nDocument is valid.\n")
     }
     result // always have your snippet return a value that cannot easily be "optimized away"
 

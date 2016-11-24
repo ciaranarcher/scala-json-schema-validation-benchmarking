@@ -12,6 +12,11 @@ object Build extends Build {
     scalaVersion := "2.11.6",
     scalacOptions ++= Seq("-deprecation", "-feature"),
 
+    resolvers in ThisBuild ++= Seq(
+      "emueller-bintray" at "http://dl.bintray.com/emueller/maven",
+      "sonatypeSnapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
+    ),
+
     // dependencies
     libraryDependencies ++= Seq(
         "com.carrotsearch" % "hppc" % "0.7.1",
@@ -20,9 +25,9 @@ object Build extends Build {
         "com.google.code.gson" % "gson" % "1.7.1",
         "org.scalatest" %% "scalatest" % "2.2.1" % "test",
         "junit" % "junit" % "4.12" % "test",
-        "org.scalacheck" %% "scalacheck" % "1.12.2" % "test"
+        "org.scalacheck" %% "scalacheck" % "1.12.2" % "test",
+        "com.eclipsesource" %% "play-json-schema-validator" % "0.8.5"
     ),
-    resolvers += "sonatypeSnapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
 
     // enable forking in run
     fork in run := true,

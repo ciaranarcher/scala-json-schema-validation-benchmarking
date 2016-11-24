@@ -1,0 +1,29 @@
+{
+  "account_id": 1,
+  "brand_id": 10006,
+
+  "anonymous_id": "26481cfd227e0e1ef671b44b2bacbccf",
+  "channel": "web_widget",
+
+  "context": {
+    "ip": "172.18.0.6",
+    "user_agent": "Mozilla\/5.0 (Mac … .0.2661.94 Safari\/537.36",
+    "locale": "en-US"
+  },
+
+  "properties": {
+    "title": "main.js loader",
+    "url": "http://localhost:1337/example/composite.html",
+    "accept_language": "en,fr;q=0.8,fa;q=0.6,en-US;q=0.4,he;q=0.2",
+    "referrer": "http://localhost:1337/example/home.html"
+  },
+
+  "exclude": [ "pathfinder" ],
+
+  "event": "web_widget.page_view",
+  "received_at": "2016-05-12T05:14:15.523+00:00",
+  "sent_at": "2016-05-12T05:14:13.950Z",
+  "timestamp": "2016-05-12T05:14:13.950Z",
+  "type": "page",
+  "version": "b963fe7"
+}

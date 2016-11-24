@@ -1,0 +1,50 @@
+{
+  "type": "object",
+  "required": [
+    "account_id",
+    "event",
+    "sent_at",
+    "version"
+  ],
+  "properties": {
+    "account_id": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "event": {
+      "type": "string"
+    },
+    "sent_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "version": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "channel": {
+      "type": "string"
+    },
+    "context": {
+      "$ref": "#/definitions/context"
+    }
+  },
+  "definitions": {
+    "context": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "referrer": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
