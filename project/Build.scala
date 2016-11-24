@@ -26,7 +26,9 @@ object Build extends Build {
         "org.scalatest" %% "scalatest" % "2.2.1" % "test",
         "junit" % "junit" % "4.12" % "test",
         "org.scalacheck" %% "scalacheck" % "1.12.2" % "test",
-        "com.eclipsesource" %% "play-json-schema-validator" % "0.8.5"
+        "com.eclipsesource" %% "play-json-schema-validator" % "0.8.5",
+        "org.json" % "json" % "20160810",
+        "org.everit.json" % "org.everit.json.schema" % "1.4.1"
     ),
 
     // enable forking in run
