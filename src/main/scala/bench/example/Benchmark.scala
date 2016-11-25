@@ -3,7 +3,6 @@ package bench.example
 import com.google.caliper.Param
 import com.eclipsesource.schema.{SchemaType, SchemaValidator}
 import com.github.fge.jackson.JsonLoader
-import com.github.fge.jsonschema.examples.Utils
 import com.github.fge.jsonschema.main.JsonSchemaFactory
 import play.api.libs.json._
 
@@ -21,7 +20,7 @@ class Benchmark extends SimpleScalaBenchmark {
   val length: Int = 0
 
   // set up all your benchmark data here
-  val playSchemaValidator = new PlaySchemaValidator()
+  val playJsonSchemaValidator = new PlayJsonSchemaValidator()
   val orgJsonSchemaValidator = new OrgJsonSchemaValidator()
   val fgeJsonSchemaValidator = new FgeJsonSchemaValidator()
 
@@ -31,7 +30,7 @@ class Benchmark extends SimpleScalaBenchmark {
   // you can use the 'repeat' method from the SimpleScalaBenchmark trait to repeat with relatively low overhead
   // however, if your code snippet is very fast you might want to implement the reps loop directly with 'while'
   def timePlaySchemaValidator(reps: Int) = repeat(reps) {
-    playSchemaValidator.parseAndValidate
+    playJsonSchemaValidator.parseAndValidate
   }
 
   def timeOrgJsonSchemaValidator(reps: Int) = repeat(reps) {
@@ -48,7 +47,7 @@ trait Logger {
   def name = this.getClass.getSimpleName
 }
 
-class PlaySchemaValidator extends Logger {
+class PlayJsonSchemaValidator extends Logger {
   val schemaData = loadDocument("page_view.schema.json")
   val jsonSchema = Json.parse(schemaData)
   log("schema read successfully")

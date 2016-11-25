@@ -1,25 +1,20 @@
-# Micro-Benchmarking Scala Maps #
+# Benchmarking Scala JSON schema validation libraries
 
-[![travis status](https://travis-ci.org/dvmlls/scala-map-benchmarking.svg?branch=master)](https://travis-ci.org/dvmlls/scala-map-benchmarking)
-  
-Using [Caliper](http://code.google.com/p/caliper/) and Scala 2.11.6.
+## Implementations
+As part of this benchmarking suite we've examined:
 
-## Results ##
+* https://github.com/fge/json-schema-validator (via http://json-schema.org/implementations) as `FgeJsonSchemaValidator`
+* https://github.com/everit-org/json-schema  (via http://json-schema.org/implementations) as `OrgJsonSchemaValidator`
+* https://github.com/networknt/json-schema-validator (via http://json-schema.org/implementations) as `SchemaValidator`
+* https://github.com/eclipsesource/play-json-schema-validator (via Google search) as `PlayJsonSchemaValidator`
+ 
 
-For maps with 100, 1000, and 10000 elements (lower is better):
+## Notes
+* Using [Caliper](http://code.google.com/p/caliper/) and Scala 2.11.6 which provides JVM warm-up etc.
+* We want to understand the document JSON parse and validate time, i.e. we presume the schema is pre-loaded.
+* We are too concerned with ensuring we use a particular JSON parsing library, e.g. Jackson etc.
+* Raw speed was the goal.
+* Tests consisted for 10,000 parse and validation steps for each implementation. 
 
-![graph] (src/R/plot.png)
+## Results
 
-Map implementations: 
-* java.util.concurrent.HashMap
-* **java.util.HashMap**
-* **java.util.TreeMap**
-* scala.collection.immutable.HashMap
-* scala.collection.immutable.IntMap
-* scala.collection.immutable.LongMap
-* scala.collection.immutable.TreeMap
-* **scala.collection.mutable.HashMap**
-* **scala.collection.mutable.LinkedHashMap**
-* **scala.collection.mutable.LongMap**
-* scala.collection.mutable.ListMap
-* **scala.collection.mutable.OpenHashMap**
