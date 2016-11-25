@@ -28,7 +28,8 @@ object Build extends Build {
         "org.scalacheck" %% "scalacheck" % "1.12.2" % "test",
         "com.eclipsesource" %% "play-json-schema-validator" % "0.8.5",
         "org.json" % "json" % "20160810",
-        "org.everit.json" % "org.everit.json.schema" % "1.4.1"
+        "org.everit.json" % "org.everit.json.schema" % "1.4.1",
+        "com.github.fge" % "json-schema-validator" % "2.2.6"
     ),
 
     // enable forking in run

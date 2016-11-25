@@ -1,9 +1,12 @@
 package bench.example
 
 import com.google.caliper.Param
-import java.util.Random
 import com.eclipsesource.schema.{SchemaType, SchemaValidator}
+import com.github.fge.jackson.JsonLoader
+import com.github.fge.jsonschema.examples.Utils
+import com.github.fge.jsonschema.main.JsonSchemaFactory
 import play.api.libs.json._
+
 import scala.io.Source
 import org.everit.json.schema.loader.SchemaLoader
 import org.json.JSONObject
@@ -14,12 +17,13 @@ class Benchmark extends SimpleScalaBenchmark {
   // to make your benchmark depend on one or more parameterized values, create fields with the name you want
   // the parameter to be known by, and add this annotation (see @Param javadocs for more details)
   // caliper will inject the respective value at runtime and make sure to run all combinations
-  @Param(Array("10", "100", "1000", "10000"))
+  @Param(Array("10", "10000"))
   val length: Int = 0
 
   // set up all your benchmark data here
   val playSchemaValidator = new PlaySchemaValidator()
   val orgJsonSchemaValidator = new OrgJsonSchemaValidator()
+  val fgeJsonSchemaValidator = new FgeJsonSchemaValidator()
 
   // the actual code you'd like to test needs to live in one or more methods
   // whose names begin with 'time' and which accept a single 'reps: Int' parameter
@@ -32,7 +36,10 @@ class Benchmark extends SimpleScalaBenchmark {
 
   def timeOrgJsonSchemaValidator(reps: Int) = repeat(reps) {
     orgJsonSchemaValidator.validate
+  }
 
+  def timeFgeJsonSchemaValidator(reps: Int) = repeat(reps) {
+    fgeJsonSchemaValidator.validate
   }
 }
 
@@ -69,7 +76,6 @@ class OrgJsonSchemaValidator extends Logger {
   log("schema read successfully")
 
   val documentData = loadDocument("page_view.sample.json")
-  println(s"****** >> ${documentData}")
   log("document data read successfully")
 
   val validator = SchemaLoader.load(schema)
@@ -79,9 +85,31 @@ class OrgJsonSchemaValidator extends Logger {
   }
 
   def validate = {
-    println(s"****** >> ${documentData}")
     val document = new JSONObject(documentData)
     validator.validate(document)
     1 // Needs to return an int
+  }
+}
+
+class FgeJsonSchemaValidator extends Logger {
+  val schemaData = loadDocument("page_view.schema.json")
+  val schema = JsonLoader.fromString(schemaData)
+  log("schema read successfully")
+
+  val documentData = loadDocument("page_view.sample.json")
+  log("document data read successfully")
+
+  val factory = JsonSchemaFactory.byDefault()
+  val validator = factory.getJsonSchema(schema)
+
+  def loadDocument(resourceName: String) = {
+    val document = Source.fromInputStream(getClass.getResourceAsStream(resourceName))
+    try document.mkString finally document.close()
+  }
+
+  def validate = {
+    val document = JsonLoader.fromString(documentData)
+    val result = validator.validate(document)
+    result
   }
 }
