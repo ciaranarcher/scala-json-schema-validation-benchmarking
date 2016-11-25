@@ -5,7 +5,7 @@ As part of this benchmarking suite we've examined:
 
 * https://github.com/fge/json-schema-validator (via http://json-schema.org/implementations) as `FgeJsonSchemaValidator`
 * https://github.com/everit-org/json-schema  (via http://json-schema.org/implementations) as `OrgJsonSchemaValidator`
-* https://github.com/networknt/json-schema-validator (via http://json-schema.org/implementations) as `SchemaValidator`
+* https://github.com/networknt/json-schema-validator (via http://json-schema.org/implementations) as `NtJsonSchemaValidator`
 * https://github.com/eclipsesource/play-json-schema-validator (via Google search) as `PlayJsonSchemaValidator`
  
 
