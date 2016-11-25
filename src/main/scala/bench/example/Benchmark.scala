@@ -1,13 +1,15 @@
 package bench.example
 
 import java.lang.AssertionError
+import java.util
 
 import com.google.caliper.Param
 import com.eclipsesource.schema.{SchemaType, SchemaValidator}
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.fge.jackson.JsonLoader
+import com.github.fge.jsonschema.core.report.ProcessingReport
 import com.github.fge.jsonschema.main.JsonSchemaFactory
-import com.networknt.schema.{JsonSchemaFactory => NtJsonSchemaFactory}
+import com.networknt.schema.{ValidationMessage, JsonSchemaFactory => NtJsonSchemaFactory}
 import play.api.libs.json._
 
 import scala.io.Source
@@ -29,10 +31,15 @@ class Benchmark extends SimpleScalaBenchmark {
   val fgeJsonSchemaValidator = new FgeJsonSchemaValidator()
   val ntJsonSchemaValidator = new NtJsonSchemaValidator()
 
-  playJsonSchemaValidator.sanityCheck
-  orgJsonSchemaValidator.sanityCheck
-  fgeJsonSchemaValidator.sanityCheck
-  ntJsonSchemaValidator.sanityCheck
+  val validators = Map(
+    "play" -> new PlayJsonSchemaValidator,
+    "orgjson" -> new OrgJsonSchemaValidator,
+    "fge" -> new FgeJsonSchemaValidator,
+    "nt" -> new NtJsonSchemaValidator
+  )
+
+
+  validators.values.foreach(_.sanityCheck())
 
   // the actual code you'd like to test needs to live in one or more methods
   // whose names begin with 'time' and which accept a single 'reps: Int' parameter
@@ -40,19 +47,19 @@ class Benchmark extends SimpleScalaBenchmark {
   // you can use the 'repeat' method from the SimpleScalaBenchmark trait to repeat with relatively low overhead
   // however, if your code snippet is very fast you might want to implement the reps loop directly with 'while'
   def timePlaySchemaValidator(reps: Int) = repeat(reps) {
-    playJsonSchemaValidator.parseAndValidate
+    playJsonSchemaValidator.parseAndValidate()
   }
 
   def timeOrgJsonSchemaValidator(reps: Int) = repeat(reps) {
-    orgJsonSchemaValidator.parseAndValidate
+    orgJsonSchemaValidator.parseAndValidate()
   }
 
   def timeFgeJsonSchemaValidator(reps: Int) = repeat(reps) {
-    fgeJsonSchemaValidator.parseAndValidate
+    fgeJsonSchemaValidator.parseAndValidate()
   }
 
   def timeNtJsonSchemaValidator(reps: Int) = repeat(reps) {
-    ntJsonSchemaValidator.parseAndValidate
+    ntJsonSchemaValidator.parseAndValidate()
   }
 }
 
@@ -61,7 +68,13 @@ trait Logger {
   def name = this.getClass.getSimpleName
 }
 
-class NtJsonSchemaValidator extends Logger {
+trait Validator[A] {
+  def parseAndValidate(): A
+  def sanityCheck(): Unit
+  def loadDocument(resourceName: String): Any
+}
+
+class NtJsonSchemaValidator extends Validator[util.Set[ValidationMessage]] with Logger {
   val schemaData = loadDocument("page_view.schema.json")
   log("schema read successfully")
 
@@ -72,31 +85,31 @@ class NtJsonSchemaValidator extends Logger {
   val factory = new NtJsonSchemaFactory()
   val validator = factory.getSchema(schemaData)
 
-  def loadDocument(resourceName: String) = {
+  def loadDocument(resourceName: String): String = {
     val document = Source.fromInputStream(getClass.getResourceAsStream(resourceName))
     try document.mkString finally document.close()
   }
 
-  def parseAndValidate = {
+  def parseAndValidate(): util.Set[ValidationMessage] = {
     val documentJson = mapper.readTree(documentData)
     validator.validate(documentJson)
   }
 
-  def sanityCheck = {
+  def sanityCheck() = {
     val badDocumentData = loadDocument("page_view.invalid.sample.json")
     val badDocumentJson = mapper.readTree(badDocumentData)
 
     var errors = validator.validate(badDocumentJson)
     assert(errors.size > 0, "document validation should fail")
 
-    errors = parseAndValidate
+    errors = parseAndValidate()
     assert(errors.size == 0, "document validation should pass")
 
     log("sanity checks were successful")
   }
 }
 
-class PlayJsonSchemaValidator extends Logger {
+class PlayJsonSchemaValidator extends Validator[JsResult[_]] with Logger {
   val schemaData = loadDocument("page_view.schema.json")
   val jsonSchema = Json.parse(schemaData)
   log("schema read successfully")
@@ -107,17 +120,17 @@ class PlayJsonSchemaValidator extends Logger {
   val schema = Json.fromJson[SchemaType](jsonSchema).get
   val validator = new SchemaValidator
 
-  def loadDocument(resourceName: String) = {
+  def loadDocument(resourceName: String): String = {
     val document = Source.fromInputStream(getClass.getResourceAsStream(resourceName))
     try document.mkString finally document.close()
   }
 
-  def parseAndValidate = {
+  def parseAndValidate() = {
     val documentJson = Json.parse(documentData)
     validator.validate(schema, documentJson)
   }
 
-  def sanityCheck = {
+  def sanityCheck() = {
     val badDocumentData = loadDocument("page_view.invalid.sample.json")
     val badDocumentJson = Json.parse(badDocumentData)
 
@@ -126,7 +139,7 @@ class PlayJsonSchemaValidator extends Logger {
       case _ =>
     }
 
-    parseAndValidate match {
+    parseAndValidate() match {
       case _: JsError => throw new AssertionError("document validation should pass")
       case _ =>
     }
@@ -135,7 +148,7 @@ class PlayJsonSchemaValidator extends Logger {
   }
 }
 
-class OrgJsonSchemaValidator extends Logger {
+class OrgJsonSchemaValidator extends Validator[Int] with Logger {
   val schemaData = loadDocument("page_view.schema.json")
   val schema = new JSONObject(schemaData)
   log("schema read successfully")
@@ -149,13 +162,13 @@ class OrgJsonSchemaValidator extends Logger {
     Source.fromInputStream(getClass.getResourceAsStream(resourceName))
   }
 
-  def parseAndValidate = {
+  def parseAndValidate() = {
     val document = new JSONObject(documentData)
     validator.validate(document)
     1 // Needs to return an int
   }
 
-  def sanityCheck = {
+  def sanityCheck() = {
 
     // Seems we cannot get this library to raise a ValidationException :/
     // https://github.com/everit-org/json-schema
@@ -164,7 +177,7 @@ class OrgJsonSchemaValidator extends Logger {
   }
 }
 
-class FgeJsonSchemaValidator extends Logger {
+class FgeJsonSchemaValidator extends Validator[ProcessingReport] with Logger {
   val schemaData = loadDocument("page_view.schema.json")
   val schema = JsonLoader.fromString(schemaData)
   log("schema read successfully")
@@ -175,24 +188,24 @@ class FgeJsonSchemaValidator extends Logger {
   val factory = JsonSchemaFactory.byDefault()
   val validator = factory.getJsonSchema(schema)
 
-  def loadDocument(resourceName: String) = {
+  def loadDocument(resourceName: String): String = {
     val document = Source.fromInputStream(getClass.getResourceAsStream(resourceName))
     try document.mkString finally document.close()
   }
 
-  def parseAndValidate = {
+  def parseAndValidate(): ProcessingReport = {
     val document = JsonLoader.fromString(documentData)
     validator.validate(document)
   }
 
-  def sanityCheck = {
+  def sanityCheck() = {
     val badDocumentData = loadDocument("page_view.invalid.sample.json")
     val badDocument = JsonLoader.fromString(badDocumentData)
 
     var report = validator.validate(badDocument)
     assert(!report.isSuccess, "document validation should fail")
 
-    report = parseAndValidate
+    report = parseAndValidate()
     assert(report.isSuccess, "document validation should pass")
 
     log("sanity checks were successful")
