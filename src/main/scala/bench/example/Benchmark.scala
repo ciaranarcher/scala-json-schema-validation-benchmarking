@@ -20,7 +20,7 @@ class Benchmark extends SimpleScalaBenchmark {
   // to make your benchmark depend on one or more parameterized values, create fields with the name you want
   // the parameter to be known by, and add this annotation (see @Param javadocs for more details)
   // caliper will inject the respective value at runtime and make sure to run all combinations
-  @Param(Array("10", "10000"))
+  @Param(Array("10000"))
   val length: Int = 0
 
   // set up all your benchmark data here
