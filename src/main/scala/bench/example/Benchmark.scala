@@ -29,8 +29,10 @@ class Benchmark extends SimpleScalaBenchmark {
   val fgeJsonSchemaValidator = new FgeJsonSchemaValidator()
   val ntJsonSchemaValidator = new NtJsonSchemaValidator()
 
-  ntJsonSchemaValidator.sanityCheck
   playJsonSchemaValidator.sanityCheck
+  orgJsonSchemaValidator.sanityCheck
+  fgeJsonSchemaValidator.sanityCheck
+  ntJsonSchemaValidator.sanityCheck
 
   // the actual code you'd like to test needs to live in one or more methods
   // whose names begin with 'time' and which accept a single 'reps: Int' parameter
@@ -85,7 +87,7 @@ class NtJsonSchemaValidator extends Logger {
     val badDocumentJson = mapper.readTree(badDocumentData)
 
     var errors = validator.validate(badDocumentJson)
-    assert(errors.size == 1, "document validation should fail")
+    assert(errors.size > 0, "document validation should fail")
 
     errors = parseAndValidate
     assert(errors.size == 0, "document validation should pass")
@@ -152,6 +154,14 @@ class OrgJsonSchemaValidator extends Logger {
     validator.validate(document)
     1 // Needs to return an int
   }
+
+  def sanityCheck = {
+
+    // Seems we cannot get this library to raise a ValidationException :/
+    // https://github.com/everit-org/json-schema
+
+    log("sanity checks failed! See code comments.")
+  }
 }
 
 class FgeJsonSchemaValidator extends Logger {
@@ -172,7 +182,19 @@ class FgeJsonSchemaValidator extends Logger {
 
   def parseAndValidate = {
     val document = JsonLoader.fromString(documentData)
-    val result = validator.validate(document)
-    result
+    validator.validate(document)
+  }
+
+  def sanityCheck = {
+    val badDocumentData = loadDocument("page_view.invalid.sample.json")
+    val badDocument = JsonLoader.fromString(badDocumentData)
+
+    var report = validator.validate(badDocument)
+    assert(!report.isSuccess, "document validation should fail")
+
+    report = parseAndValidate
+    assert(report.isSuccess, "document validation should pass")
+
+    log("sanity checks were successful")
   }
 }
