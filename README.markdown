@@ -20,42 +20,28 @@ As part of this benchmarking suite we've examined:
 ## Results
 
 ```
-[info] Loading global plugins from /Users/carcher/.sbt/0.13/plugins
-[info] Loading project definition from /Users/carcher/Code/scala/scala-json-schema-validation-benchmarking/project
-[info] Set current project to scala-map-benchmarking (in build file:/Users/carcher/Code/scala/scala-json-schema-validation-benchmarking/)
-[info] Compiling 1 Scala source to /Users/carcher/Code/scala/scala-json-schema-validation-benchmarking/target/scala-2.11/classes...
-[info] Compiling 1 Scala source to /Users/carcher/Code/scala/scala-json-schema-validation-benchmarking/target/scala-2.11/classes...
 [info] Running bench.example.Runner
 [info] >> BENCH >> PlayJsonSchemaValidator >> schema read successfully
-[info] >> BENCH >> PlayJsonSchemaValidator >> document data read successfully
 [info] >> BENCH >> OrgJsonSchemaValidator >> schema read successfully
-[info] >> BENCH >> OrgJsonSchemaValidator >> document data read successfully
 [info] >> BENCH >> FgeJsonSchemaValidator >> schema read successfully
-[info] >> BENCH >> FgeJsonSchemaValidator >> document data read successfully
-[info] >> BENCH >> NtJsonSchemaValidator >> schema read successfully
-[info] >> BENCH >> NtJsonSchemaValidator >> document data read successfully
-[error] SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
-[error] SLF4J: Defaulting to no-operation (NOP) logger implementation
-[error] SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-[info] >> BENCH >> PlayJsonSchemaValidator >> sanity checks were successful
-[info] >> BENCH >> OrgJsonSchemaValidator >> sanity checks failed! See code comments.
-[info] >> BENCH >> FgeJsonSchemaValidator >> sanity checks were successful
-[info] >> BENCH >> NtJsonSchemaValidator >> sanity checks were successful
-[info]  0% Scenario{vm=java, trial=0, benchmark=PlaySchemaValidator, length=10000} 88821.78 ns; σ=854.56 ns @ 3 trials
-[info] 25% Scenario{vm=java, trial=0, benchmark=OrgJsonSchemaValidator, length=10000} 13235.91 ns; σ=773.60 ns @ 10 trials
-[info] 50% Scenario{vm=java, trial=0, benchmark=FgeJsonSchemaValidator, length=10000} 33915.07 ns; σ=1382.68 ns @ 10 trials
-[info] 75% Scenario{vm=java, trial=0, benchmark=NtJsonSchemaValidator, length=10000} 4705.60 ns; σ=26.44 ns @ 3 trials
+[info] Do these parsers actually validate documents as expected? Testing now...
+[info] All `good` documents validated as expected
+[info] All `bad` documents validated as expected
+[info]  0% Scenario{vm=java, trial=0, benchmark=PlaySchemaValidator, length=10000} 92516.01 ns; σ=3433.57 ns @ 10 trials
+[info] 25% Scenario{vm=java, trial=0, benchmark=OrgJsonSchemaValidator, length=10000} 17561.98 ns; σ=378.69 ns @ 10 trials
+[info] 50% Scenario{vm=java, trial=0, benchmark=FgeJsonSchemaValidator, length=10000} 34183.25 ns; σ=260.53 ns @ 3 trials
+[info] 75% Scenario{vm=java, trial=0, benchmark=NtJsonSchemaValidator, length=10000} 4566.60 ns; σ=118.12 ns @ 10 trials
 [info]
 [info]              benchmark    us linear runtime
-[info]    PlaySchemaValidator 88.82 ==============================
-[info] OrgJsonSchemaValidator 13.24 ====
-[info] FgeJsonSchemaValidator 33.92 ===========
-[info]  NtJsonSchemaValidator  4.71 =
+[info]    PlaySchemaValidator 92.52 ==============================
+[info] OrgJsonSchemaValidator 17.56 =====
+[info] FgeJsonSchemaValidator 34.18 ===========
+[info]  NtJsonSchemaValidator  4.57 =
 [info]
 [info] vm: java
 [info] trial: 0
 [info] length: 10000
-[success] Total time: 63 s, completed 25-Nov-2016 11:57:24
+[success] Total time: 67 s, completed 26-Nov-2016 22:24:09
 ```
 
 * Fastest is `NtJsonSchemaValidator` (https://github.com/networknt/json-schema-validator).
