@@ -45,7 +45,6 @@ As part of this benchmarking suite we've examined:
 ```
 
 * Fastest is `NtJsonSchemaValidator` (https://github.com/networknt/json-schema-validator).
-* `OrgJsonSchemaValidator` came 2nd but is discounted at this time due to it appearing not to work as expected (sanity check failed).
 
 ## Running
 `sbt run`
