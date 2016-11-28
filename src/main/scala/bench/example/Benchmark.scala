@@ -38,16 +38,17 @@ class Benchmark extends SimpleScalaBenchmark {
   )
 
   println("Do these parsers actually validate documents as expected? Testing now...")
-  printViolations(validators.mapValues(_.sanityCheckGoodDocument(goodDocData))
-    .filter({ case (k, v) => v.isEmpty }), "good")
+  printViolations(validators.mapValues(_.parseAndValidate(goodDocData))
+    .collect { case (k, None) => k }, "good")
 
-  printViolations(validators.mapValues(_.sanityCheckBadDocument(badDocData))
-    .filter({ case (k, v) => v.isDefined }), "bad")
+  printViolations(validators.mapValues(_.parseAndValidate(badDocData))
+    .collect{ case (k, Some(_)) => k}, "bad")
 
-  def printViolations(violations: Map[String, Option[_]], testType: String) = {
+  def printViolations(violations: Iterable[String], testType: String) = {
     violations.size match {
+
       case 0 => println(s"All `${testType}` documents validated as expected")
-      case _ => println(s"There were issues validating `${testType}` documents for parsers: ${violations.keys}")
+      case _ => println(s"There were issues validating `${testType}` documents for parsers: ${violations}")
     }
   }
 
@@ -85,14 +86,6 @@ trait Logger {
 
 trait Validator[A] {
   def parseAndValidate(documentData: String): Option[_]
-
-  def sanityCheckGoodDocument(goodDocumentData: String): Option[_] = {
-    parseAndValidate(goodDocumentData)
-  }
-
-  def sanityCheckBadDocument(badDocumentData: String): Option[_] = {
-    parseAndValidate(badDocumentData)
-  }
 }
 
 class NtJsonSchemaValidator(schemaData: String) extends Validator[util.Set[ValidationMessage]] with Logger {
